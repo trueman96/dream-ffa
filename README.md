@@ -1,5 +1,5 @@
 ```todo  
-  > Funkcje Pluginu:
+  > Funkcje Pluginu do zrobienia:
     - Nadmiar przedmiotów z configu zostaje usuwany z eq po prostu jakby trafiał do schowka ale schowka nie ma
     - Topka Punktów oraz KillStreak + Placeholdery do topek
     - Komenda /killstreak - pokazuje nam aktualny killstreak, maksymalny killstreak + topka killstreak oraz placeholder do max ks, aktualnego ks, topki killstreak
