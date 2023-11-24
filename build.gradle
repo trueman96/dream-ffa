@@ -6,7 +6,7 @@ plugins {
 }
 
 allprojects {
-    group 'cc.dreamcode.template'
+    group 'cc.dreamcode.ffa'
     version '1.0-InDEV'
 
     apply plugin: 'java-library'
