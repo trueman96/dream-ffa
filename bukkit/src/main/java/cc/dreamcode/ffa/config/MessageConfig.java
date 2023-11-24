@@ -4,11 +4,7 @@ import cc.dreamcode.notice.minecraft.MinecraftNoticeType;
 import cc.dreamcode.notice.minecraft.bukkit.BukkitNotice;
 import cc.dreamcode.platform.bukkit.component.configuration.Configuration;
 import eu.okaeri.configs.OkaeriConfig;
-import eu.okaeri.configs.annotation.Header;
-import eu.okaeri.configs.annotation.Headers;
-import eu.okaeri.configs.annotation.NameModifier;
-import eu.okaeri.configs.annotation.NameStrategy;
-import eu.okaeri.configs.annotation.Names;
+import eu.okaeri.configs.annotation.*;
 
 /**
  * MessageConfig.java
@@ -33,4 +29,30 @@ public final class MessageConfig extends OkaeriConfig {
     public BukkitNotice notNumber = new BukkitNotice(MinecraftNoticeType.CHAT, "&4Podana liczba &cnie jest cyfra.");
     public BukkitNotice playerIsMe = new BukkitNotice(MinecraftNoticeType.CHAT, "&4Nie rob tego &cna sobie.");
 
+    @Comment("Dostępne placeholdery: (points-to-remove, victim)")
+    public BukkitNotice playerSuicideAnnounce = new BukkitNotice(MinecraftNoticeType.CHAT, "&c{victim} &8(&7-{points-to-remove}&8) &cpopełnił samobójstwo!");
+
+    @Comment("Dostępne placeholdery: (points-to-add, points-to-remove, victim, killer, killer-health)")
+    public BukkitNotice playerKillAnnounce = new BukkitNotice(MinecraftNoticeType.CHAT, "&c{victim} &8(&7-{points-to-remove}&8) &czostał zabity przez &c{killer} &8(&7+{points-to-add}&8, &c{killer-health}❤&8)");
+
+    @Comment("Dostępne placeholdery: (points-to-add, points-to-remove, victim, killer, killer-health)")
+    public BukkitNotice playerKillTitleKiller = new BukkitNotice(MinecraftNoticeType.TITLE_SUBTITLE,
+            "&aZabójstwo!", "&cZabiłeś gracza {victim} &8(&7+{points-to-add}, &c{killer-health}❤&8)");
+
+    @Comment("Dostępne placeholdery: (points-to-add, points-to-remove, victim, killer, killer-health, points-to-add-assistant)")
+    public BukkitNotice playerAssistTitleAssistant = BukkitNotice.of(MinecraftNoticeType.TITLE_SUBTITLE,
+            "&aAsysta!", "&cAsystowałeś przy zabiciu {victim} &8(&7+{points-to-add-assistant}, &c{assistant-health}❤&8)");
+
+    @Comment("Dostępne placeholdery: (points-to-add, points-to-remove, victim, killer, killer-health, points-to-add-assistant)")
+    public BukkitNotice playerAssistAnnounce = BukkitNotice.of(MinecraftNoticeType.TITLE_SUBTITLE,
+            "&c{assistant} asystował przy zabiciu {victim} &8(&7+{ASSISTANT_POINTS}&8, &c{ASSISTANT_HEARTS}❤&8)");
+    public BukkitNotice healthInfo = BukkitNotice.of(MinecraftNoticeType.ACTION_BAR, "&7HP zaatakowanego gracza: &c{health}");
+    public BukkitNotice commandIsDisallowedWhileInCombat = BukkitNotice.of(MinecraftNoticeType.CHAT, "&cTa komenda zostala zablokowana podczas walki!");
+    public BukkitNotice playerLoggedOutWhileInCombat = BukkitNotice.of(MinecraftNoticeType.CHAT, "&cGracz {player} wylogował się podczas walki!");
+
+    public BukkitNotice combatInfo = BukkitNotice.of(MinecraftNoticeType.ACTION_BAR,
+            "&c&lAntiLogout &8(&c{combat-time}&7, {combat-progress}&7, &c{combat-percent}&6%&8)");
+
+    @Comment("Symbol używany w placeholderze: combat-progress")
+    public String progressSymbol = "■";
 }

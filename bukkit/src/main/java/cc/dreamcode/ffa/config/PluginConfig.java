@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.Objects.requireNonNull;
 
@@ -57,4 +58,45 @@ public final class PluginConfig extends OkaeriConfig {
     @Comment("Początkowa wartość punktów")
     public int initialValueOfPoints = 1000;
 
+    @Comment("Czy itemy po zabiciu gracza mają być usuwane z ziemi, i dodawane do ekwipunku zabójcy?")
+    public boolean addItemsToKillerInventory = false;
+
+    @Comment("Ilość punktów do odjęcia po popełnieniu samobójstwa przez gracza.")
+    public int valueOfPointsToRemoveAfterSuicide = 5;
+
+    @Comment("Długość trwania walki po zabiciu gracza.")
+    public long combatTimeAfterKill = TimeUnit.SECONDS.toMillis(15);
+
+    @Comment("Długość trwania walki po zaatakowaniu gracza.")
+    public long combatTimeAfterDamage = TimeUnit.SECONDS.toMillis(21);
+
+    @Comment("Czy title po zabiciu gracza ma być włączony?")
+    public boolean killTitle = true;
+
+    @Comment("Czy title po asyscie gracza ma być włączony?")
+    public boolean assistTitle = true;
+
+    @Comment("Długość trwania asysty po zaatakowaniu gracza")
+    public long assistTimeAfterDamage = TimeUnit.SECONDS.toMillis(61);
+
+    @Comment("Zablokowane komendy podczas antylogouta")
+    public List<String> disallowedCommands = new ListBuilder<String>()
+            .addAll(
+                    List.of(
+                            "wb",
+                            "workbench",
+                            "kit",
+                            "home",
+                            "sethome",
+                            "spawn",
+                            "tpa",
+                            "tpaccept",
+                            "warp",
+                            "ec",
+                            "heal",
+                            "feed",
+                            "repair"
+                    )
+            )
+            .build();
 }

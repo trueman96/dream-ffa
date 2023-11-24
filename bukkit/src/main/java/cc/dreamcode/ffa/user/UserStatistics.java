@@ -52,11 +52,10 @@ public final class UserStatistics {
     }
 
     /**
-     * Adds the given number of kills to the current kill streak total.
-     * @param streak The number of kills to add to the kill streak.
+     * Adds one kill streak to the current kill streak total.
      */
-    public void addKillStreak(int streak) {
-        killStreak += streak;
+    public void addKillStreak() {
+        killStreak++;
     }
 
     /**

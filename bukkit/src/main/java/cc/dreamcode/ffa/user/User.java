@@ -6,6 +6,7 @@ import eu.okaeri.configs.annotation.Names;
 import eu.okaeri.persistence.document.Document;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -15,10 +16,10 @@ import java.util.UUID;
 public final class User extends Document {
 
     private String name;
-    private int points;
+    private UserStatistics statistics;
+    private transient UserCombat combat;
 
     public UUID getUniqueId() {
         return this.getPath().toUUID();
     }
-
 }

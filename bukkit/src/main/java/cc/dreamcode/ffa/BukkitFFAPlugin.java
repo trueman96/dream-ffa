@@ -3,8 +3,10 @@ package cc.dreamcode.ffa;
 import cc.dreamcode.command.bukkit.BukkitCommandProvider;
 import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.config.PluginConfig;
+import cc.dreamcode.ffa.user.UserCache;
 import cc.dreamcode.ffa.user.controller.UserController;
 import cc.dreamcode.ffa.user.UserRepository;
+import cc.dreamcode.ffa.user.task.UserActionBarUpdateTask;
 import cc.dreamcode.menu.bukkit.BukkitMenuProvider;
 import cc.dreamcode.menu.bukkit.okaeri.MenuBuilderSerdes;
 import cc.dreamcode.notice.minecraft.bukkit.serdes.BukkitNoticeSerdes;
@@ -55,17 +57,20 @@ public final class BukkitFFAPlugin extends DreamBukkitPlatform implements DreamB
         componentManager.registerComponent(PluginConfig.class, pluginConfig -> {
             componentManager.setDebug(pluginConfig.debug);
 
-            // register persistence + repositories
             this.registerInjectable(pluginConfig.storageConfig);
 
             componentManager.registerResolver(DocumentPersistenceComponentResolver.class);
             componentManager.registerResolver(DocumentRepositoryComponentResolver.class);
 
             componentManager.registerComponent(DocumentPersistence.class);
+
             componentManager.registerComponent(UserRepository.class);
+            componentManager.registerComponent(UserCache.class);
+            componentManager.registerComponent(UserController.class);
+            componentManager.registerComponent(UserActionBarUpdateTask.class);
         });
 
-        componentManager.registerComponent(UserController.class);
+
     }
 
     @Override
