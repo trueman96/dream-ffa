@@ -1,6 +1,7 @@
 package cc.dreamcode.ffa.user.controller;
 
 import cc.dreamcode.ffa.config.PluginConfig;
+import cc.dreamcode.ffa.user.User;
 import cc.dreamcode.ffa.user.UserCache;
 import cc.dreamcode.ffa.user.UserRepository;
 import cc.dreamcode.utilities.bukkit.ItemUtil;
@@ -44,11 +45,14 @@ public final class UserController implements Listener {
 
         this.tasker.newChain()
                 .async(() -> this.userRepository.findOrCreateByHumanEntity(player))
-                .acceptSync(user -> {
+                .acceptAsync(userSimpleEntry -> {
+                    User user = userSimpleEntry.getValue();
                     user.setName(player.getName());
-                })
-                .acceptAsync(user -> {
+                    if (!userSimpleEntry.getKey()) {
+                        user.setPoints(this.pluginConfig.initialValueOfPoints);
+                    }
                     user.save();
+
                     this.userCache.add(user);
                 })
                 .acceptSync(user -> {

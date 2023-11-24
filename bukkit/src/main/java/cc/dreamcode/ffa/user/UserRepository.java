@@ -5,8 +5,11 @@ import eu.okaeri.persistence.repository.annotation.DocumentCollection;
 import lombok.NonNull;
 import org.bukkit.entity.HumanEntity;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Optional;
 import java.util.UUID;
+
+import static java.util.Objects.nonNull;
 
 /**
  * This interface defines the operations for managing User data in a data repository.
@@ -23,23 +26,24 @@ public interface UserRepository extends DocumentRepository<UUID, User> {
      *
      * @param uuid         The UUID of the User.
      * @param userName     The username of the User.
-     * @return             The found or created User.
+     * @return             Entry with boolean if user was found or created and the User.
      */
-    default User findOrCreate(@NonNull UUID uuid, String userName) {
+    default SimpleEntry<Boolean, User> findOrCreate(@NonNull UUID uuid, String userName) {
+        boolean wasFound = nonNull(this.findByPath(uuid));
         User user = this.findOrCreateByPath(uuid);
         if (userName != null) {
             user.setName(userName);
         }
-        return user;
+        return new SimpleEntry<>(wasFound, user);
     }
 
     /**
      * Finds a User by UUID. If no User is found, a new User with the given UUID is created and stored.
      *
      * @param uuid         The UUID of the User.
-     * @return             The found or created User.
+     * @return             Entry with boolean if user was found or created and the User.
      */
-    default User findOrCreateByUUID(@NonNull UUID uuid) {
+    default SimpleEntry<Boolean, User> findOrCreateByUUID(@NonNull UUID uuid) {
         return this.findOrCreate(uuid, null);
     }
 
@@ -47,9 +51,9 @@ public interface UserRepository extends DocumentRepository<UUID, User> {
      * Finds a User by a HumanEntity. If no User is found, a new User with the given UUID and username is created and stored.
      *
      * @param humanEntity The HumanEntity representing the User.
-     * @return            The found or created User.
+     * @return             Entry with boolean if user was found or created and the User.
      */
-    default User findOrCreateByHumanEntity(@NonNull HumanEntity humanEntity) {
+    default SimpleEntry<Boolean, User> findOrCreateByHumanEntity(@NonNull HumanEntity humanEntity) {
         return this.findOrCreate(humanEntity.getUniqueId(), humanEntity.getName());
     }
 

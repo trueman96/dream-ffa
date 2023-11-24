@@ -55,6 +55,6 @@ public final class PluginConfig extends OkaeriConfig {
     public Location spawnLocation = new Location(null, 0, 100, 0);
 
     @Comment("Początkowa wartość punktów")
-    private int initialValueOfPoints = 1000;
+    public int initialValueOfPoints = 1000;
 
 }
