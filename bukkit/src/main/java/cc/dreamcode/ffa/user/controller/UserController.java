@@ -19,6 +19,7 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 import java.util.Map;
@@ -84,23 +85,19 @@ public final class UserController implements Listener {
         final Player player = event.getPlayer();
 
         this.tasker.newChain()
-                .async(() -> this.userRepository.findOrCreateByHumanEntity(player))
-                .acceptSync(user -> {
-                    user.setName(player.getName());
-                })
-                .acceptAsync(user -> {
-                    user.save();
-                })
-                .acceptSync(user -> {
+                .async(() -> {
                     setupInventory(player);
                 })
                 .execute();
     }
 
     private void setupInventory(Player player) {
+        player.getInventory().clear();
+
         final PlayerInventory inventory = player.getInventory();
         this.pluginConfig.equipmentAfterJoin.forEach(inventory::setItem);
         ItemUtil.addItems(this.pluginConfig.itemsAfterJoin, inventory);
+        player.getActivePotionEffects().stream().map(PotionEffect::getType).forEach(player::removePotionEffect);
     }
 
 }
