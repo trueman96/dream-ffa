@@ -70,7 +70,6 @@ public final class BukkitFFAPlugin extends DreamBukkitPlatform implements DreamB
             componentManager.registerComponent(UserActionBarUpdateTask.class);
         });
 
-
     }
 
     @Override

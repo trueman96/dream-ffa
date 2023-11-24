@@ -81,22 +81,21 @@ public final class PluginConfig extends OkaeriConfig {
 
     @Comment("Zablokowane komendy podczas antylogouta")
     public List<String> disallowedCommands = new ListBuilder<String>()
-            .addAll(
-                    List.of(
-                            "wb",
-                            "workbench",
-                            "kit",
-                            "home",
-                            "sethome",
-                            "spawn",
-                            "tpa",
-                            "tpaccept",
-                            "warp",
-                            "ec",
-                            "heal",
-                            "feed",
-                            "repair"
-                    )
-            )
+            .addAll(List.of(
+                    "wb",
+                    "workbench",
+                    "kit",
+                    "home",
+                    "sethome",
+                    "spawn",
+                    "tpa",
+                    "tpaccept",
+                    "warp",
+                    "ec",
+                    "heal",
+                    "feed",
+                    "repair"
+            ))
             .build();
+
 }
