@@ -15,7 +15,7 @@ import java.util.UUID;
 @Data
 public class UserCombat {
 
-    private transient UUID lastAttackPlayer, lastAssistPlayer;
+    private UUID lastAttackPlayer, lastAssistPlayer;
     private long lastAttackTime, lastAssistTime;
 
     public boolean isInCombat() {
