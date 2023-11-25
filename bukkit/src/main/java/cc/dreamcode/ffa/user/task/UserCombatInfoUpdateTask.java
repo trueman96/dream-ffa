@@ -16,9 +16,16 @@ import java.text.DecimalFormat;
 
 import static java.util.Objects.isNull;
 
+/**
+ * UserCombatInfoUpdateTask.java
+ * Purpose: The UserCombatInfoUpdateTask is a class that sends combat status to player.
+ * @author vkie
+ * @version 1.0-inDev
+ * @since 2023-11-25
+ */
 @Scheduler(delay = 13L, interval = 13L)
 @RequiredArgsConstructor(onConstructor_= @Inject)
-public final class UserActionBarUpdateTask implements Runnable {
+public final class UserCombatInfoUpdateTask implements Runnable {
 
     private final DecimalFormat decimalFormat = new DecimalFormat("##");
 
@@ -28,7 +35,7 @@ public final class UserActionBarUpdateTask implements Runnable {
     @Override
     public void run() {
         final long now = System.currentTimeMillis();
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (final Player player : Bukkit.getOnlinePlayers()) {
             final User user = this.userCache.get(player);
             if (isNull(user)) {
                 return;

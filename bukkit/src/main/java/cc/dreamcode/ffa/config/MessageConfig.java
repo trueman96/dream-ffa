@@ -3,8 +3,14 @@ package cc.dreamcode.ffa.config;
 import cc.dreamcode.notice.minecraft.MinecraftNoticeType;
 import cc.dreamcode.notice.minecraft.bukkit.BukkitNotice;
 import cc.dreamcode.platform.bukkit.component.configuration.Configuration;
+import cc.dreamcode.utilities.builder.MapBuilder;
+import cc.dreamcode.utilities.bukkit.builder.ItemBuilder;
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.*;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Map;
 
 /**
  * MessageConfig.java
@@ -55,4 +61,10 @@ public final class MessageConfig extends OkaeriConfig {
 
     @Comment("Symbol używany w placeholderze: combat-progress")
     public String progressSymbol = "■";
+
+    @Comment("Wiadomości o zabraniu nadmiaru danych itemków")
+    public Map<Material, BukkitNotice> depositMessages = new MapBuilder<Material, BukkitNotice>()
+            .put(Material.ENCHANTED_GOLDEN_APPLE, BukkitNotice.of(MinecraftNoticeType.CHAT, "&7Zabrano nadmiar &8(&7{amount}&8) &7koxów z ekwipunku!"))
+            .put(Material.GOLDEN_APPLE, BukkitNotice.of(MinecraftNoticeType.CHAT, "&7Zabrano nadmiar &8(&7{amount}&8) &7refili z ekwipunku!"))
+            .build();
 }

@@ -9,6 +9,7 @@ import com.cryptomorin.xseries.XMaterial;
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.*;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
@@ -96,6 +97,12 @@ public final class PluginConfig extends OkaeriConfig {
                     "feed",
                     "repair"
             ))
+            .build();
+
+    @Comment("Itemki których nadmiar będzie zabierany")
+    public Map<Integer, Material> depositItemsMap = new MapBuilder<Integer, Material>()
+            .put(1, Material.ENCHANTED_GOLDEN_APPLE)
+            .put(12, Material.GOLDEN_APPLE)
             .build();
 
 }
