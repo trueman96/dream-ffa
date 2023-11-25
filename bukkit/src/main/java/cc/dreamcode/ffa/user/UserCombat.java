@@ -3,6 +3,8 @@ package cc.dreamcode.ffa.user;
 import lombok.Data;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 /**
  * UserCombat.java
  * Purpose: The UserCombat is a class that contains User combat-related stuff.
@@ -13,7 +15,7 @@ import org.bukkit.entity.Player;
 @Data
 public class UserCombat {
 
-    private transient Player lastAttackPlayer, lastAssistPlayer;
+    private transient UUID lastAttackPlayer, lastAssistPlayer;
     private long lastAttackTime, lastAssistTime;
 
     public boolean isInCombat() {
@@ -25,5 +27,21 @@ public class UserCombat {
         this.lastAssistTime = 0L;
         this.lastAssistPlayer = null;
         this.lastAttackPlayer = null;
+    }
+
+    public void setLastAttackPlayer(UUID lastAttackPlayer) {
+        this.lastAttackPlayer = lastAttackPlayer;
+    }
+
+    public void setLastAssistPlayer(UUID lastAssistPlayer) {
+        this.lastAssistPlayer = lastAssistPlayer;
+    }
+
+    public void setLastAssistPlayer(Player lastAssistPlayer) {
+        this.lastAssistPlayer = lastAssistPlayer.getUniqueId();
+    }
+
+    public void setLastAttackPlayer(Player lastAttackPlayer) {
+        this.lastAttackPlayer = lastAttackPlayer.getUniqueId();
     }
 }

@@ -12,6 +12,7 @@ import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.tasker.core.Tasker;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -58,7 +59,7 @@ public final class UserController implements Listener {
     public void onPlayerJoin(@NonNull PlayerJoinEvent event) {
         final Player player = event.getPlayer();
 
-        this.tasker.newChain()
+        this.tasker.newSharedChain("user")
                 .async(() -> this.userRepository.findOrCreateByHumanEntity(player))
                 .acceptAsync(userSimpleEntry -> {
                     final User user = userSimpleEntry.getValue();
@@ -84,7 +85,7 @@ public final class UserController implements Listener {
     public void onPlayerQuit(@NonNull PlayerQuitEvent event) {
         final Player player = event.getPlayer();
 
-        this.tasker.newChain()
+        this.tasker.newSharedChain("user")
                 .async(() -> this.userCache.get(player))
                 .acceptSync(user -> {
                     if (user.getCombat().isInCombat()) {
@@ -110,7 +111,7 @@ public final class UserController implements Listener {
     public void onPlayerRespawn(@NonNull PlayerRespawnEvent event) {
         final Player player = event.getPlayer();
 
-        this.tasker.newChain()
+        this.tasker.newSharedChain("user")
                 .async(() -> this.userCache.get(player))
                 .acceptAsync(user -> {
                     setupInventory(player, user);
@@ -138,7 +139,7 @@ public final class UserController implements Listener {
         event.setDeathMessage(null);
 
         final Player victim = event.getEntity();
-        this.tasker.newChain()
+        this.tasker.newSharedChain("user")
                 .async(() -> {
                     final User victimUser = this.userCache.get(victim);
                     final UserStatistics victimStatistics = victimUser.getStatistics();
@@ -149,7 +150,7 @@ public final class UserController implements Listener {
 
                     Player killer = victim.getKiller();
                     if ((killer == null || killer.equals(victim)) && victimCombat.getLastAttackPlayer() != null && victimCombat.isInCombat()) {
-                        killer = victimCombat.getLastAttackPlayer();
+                        killer = Bukkit.getPlayer(victimCombat.getLastAttackPlayer());
                     }
 
                     if (killer == null) {
@@ -200,9 +201,9 @@ public final class UserController implements Listener {
                                         .build());
                     }
 
-                    final Player assistant = victimCombat.getLastAssistPlayer();
+                    final Player assistant = Bukkit.getPlayer(victimCombat.getLastAssistPlayer());
                     if (nonNull(assistant) && victimCombat.getLastAssistTime() > System.currentTimeMillis()
-                            && !Objects.equals(victimCombat.getLastAssistPlayer().getUniqueId(), killer.getUniqueId())) {
+                            && !Objects.equals(victimCombat.getLastAssistPlayer(), killer.getUniqueId())) {
 
                         final User assistantUser = this.userCache.get(assistant);
                         final UserStatistics assistantStatistics = assistantUser.getStatistics();
@@ -307,7 +308,7 @@ public final class UserController implements Listener {
             victimCombat.setLastAttackTime(combatTime);
             attackerCombat.setLastAttackTime(combatTime);
 
-            if (victimCombat.getLastAttackPlayer() != attacker) {
+            if (victimCombat.getLastAttackPlayer() != attacker.getUniqueId()) {
                 victimCombat.setLastAssistPlayer(victimCombat.getLastAttackPlayer());
                 victimCombat.setLastAssistTime(System.currentTimeMillis() + this.pluginConfig.assistTimeAfterDamage);
             }

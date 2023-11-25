@@ -1,8 +1,3 @@
 rootProject.name = 'dream-ffa'
 
 include 'bukkit'
-include 'bukkit:mcversion:api'
-include 'bukkit:mcversion:v1_12_R1'
-include 'bukkit:mcversion:v1_16_R3'
-include 'bukkit:mcversion:v1_17_R1'
-include 'bukkit:mcversion:v1_19_R3'
