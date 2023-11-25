@@ -29,6 +29,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.projectiles.ProjectileSource;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -72,10 +73,11 @@ public final class UserController implements Listener {
 
                     this.userCache.add(user);
                 })
-                .acceptSync(user -> {
-                    setupInventory(player, user.getValue());
-                })
                 .execute();
+
+        this.tasker.newDelayer(Duration.ofSeconds(2))
+                .delayed(() -> setupInventory(player, this.userCache.get(player)))
+                .executeSync();
     }
 
     @EventHandler
@@ -121,12 +123,13 @@ public final class UserController implements Listener {
 
         final PlayerInventory inventory = player.getInventory();
         this.pluginConfig.equipmentAfterJoin.forEach(inventory::setItem);
-        ItemUtil.addItems(this.pluginConfig.itemsAfterJoin, inventory);
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
 
         final UserSavedInventory savedInventory = user.getSavedInventory();
-        if (savedInventory.getInventory() != null) {
-            player.getInventory().setContents(savedInventory.getInventory());
+        if (savedInventory != null && savedInventory.getInventory() != null) {
+            player.getInventory().setStorageContents(savedInventory.getInventory());
+        } else {
+            ItemUtil.addItems(this.pluginConfig.itemsAfterJoin, inventory);
         }
     }
 

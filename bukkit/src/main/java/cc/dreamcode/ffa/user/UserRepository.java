@@ -32,7 +32,7 @@ public interface UserRepository extends DocumentRepository<UUID, User> {
      * @return             Entry with boolean if user was found or created and the User.
      */
     default SimpleEntry<Boolean, User> findOrCreate(@NonNull UUID uuid, String userName) {
-        boolean wasFound = nonNull(this.findByPath(uuid));
+        boolean wasFound = this.findByPath(uuid).isPresent();
         User user = this.findOrCreateByPath(uuid);
         if (userName != null) {
             user.setName(userName);

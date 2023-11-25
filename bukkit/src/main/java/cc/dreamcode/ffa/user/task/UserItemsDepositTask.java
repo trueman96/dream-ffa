@@ -4,6 +4,7 @@ import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.config.PluginConfig;
 import cc.dreamcode.platform.bukkit.component.scheduler.Scheduler;
 import cc.dreamcode.utilities.builder.MapBuilder;
+import eu.okaeri.injector.annotation.Inject;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -20,7 +21,7 @@ import java.util.Map;
  * @version 1.0-inDev
  * @since 2023-11-25
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_= @Inject)
 @Scheduler(delay = 0L, interval = 60L)
 public class UserItemsDepositTask implements Runnable {
 

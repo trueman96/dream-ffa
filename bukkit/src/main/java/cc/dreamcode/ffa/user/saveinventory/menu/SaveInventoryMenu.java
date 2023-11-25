@@ -2,8 +2,6 @@ package cc.dreamcode.ffa.user.saveinventory.menu;
 
 import cc.dreamcode.ffa.BukkitFFAPlugin;
 import cc.dreamcode.ffa.config.PluginConfig;
-import cc.dreamcode.ffa.mcversion.VersionProvider;
-import cc.dreamcode.ffa.mcversion.api.ItemIdentifyManager;
 import cc.dreamcode.ffa.user.User;
 import cc.dreamcode.ffa.user.saveinventory.UserSavedInventory;
 import cc.dreamcode.menu.bukkit.BukkitMenuBuilder;
@@ -11,6 +9,7 @@ import cc.dreamcode.menu.bukkit.base.BukkitMenu;
 import cc.dreamcode.utilities.bukkit.builder.ItemBuilder;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
@@ -24,8 +23,6 @@ public class SaveInventoryMenu {
     private final BukkitFFAPlugin plugin;
 
     private final PluginConfig pluginConfig;
-
-    private final ItemIdentifyManager identifyManager = VersionProvider.getItemIdentifyManager();
 
     public void open() {
         BukkitMenuBuilder menuBuilder = this.pluginConfig.saveInventoryMenu;
@@ -45,12 +42,15 @@ public class SaveInventoryMenu {
     }
 
     void getInventoryAction(ItemStack item) {
+        if (!item.hasItemMeta()) {
+            return;
+        }
         final UserSavedInventory savedInventory = user.getSavedInventory();
-        if (!identifyManager.getItemIdentityTagName(item, "reset-items").isEmpty()) {
+        if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_DESTROYS)) {
             savedInventory.setInventory(null);
             this.plugin.runAsync(user::save);
-        } else if (!identifyManager.getItemIdentityTagName(item, "save-items").isEmpty()) {
-            savedInventory.setInventory(player.getInventory().getContents());
+        } else if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS)) {
+            savedInventory.setInventory(player.getInventory().getStorageContents());
             this.plugin.runAsync(user::save);
         }
     }

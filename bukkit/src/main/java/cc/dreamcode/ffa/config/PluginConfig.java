@@ -1,6 +1,5 @@
 package cc.dreamcode.ffa.config;
 
-import cc.dreamcode.ffa.mcversion.VersionProvider;
 import cc.dreamcode.menu.bukkit.BukkitMenuBuilder;
 import cc.dreamcode.platform.bukkit.component.configuration.Configuration;
 import cc.dreamcode.platform.persistence.StorageConfig;
@@ -10,9 +9,11 @@ import cc.dreamcode.utilities.bukkit.builder.ItemBuilder;
 import com.cryptomorin.xseries.XMaterial;
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public final class PluginConfig extends OkaeriConfig {
             .build();
 
     @Comment("Lokalizacja spawna")
-    public Location spawnLocation = new Location(null, 0, 100, 0);
+    public Location spawnLocation = new Location(Bukkit.getWorlds().get(0), 0, 100, 0);
 
     @Comment("Początkowa wartość punktów")
     public int initialValueOfPoints = 1000;
@@ -107,11 +108,16 @@ public final class PluginConfig extends OkaeriConfig {
             .put(12, Material.GOLDEN_APPLE)
             .build();
 
+    @Comment("Nie usuwaj flag (HIDE_DESTROYS, HIDE_ENCHANTS) bo bez nich gui nie będzie funkcjonować!")
     public BukkitMenuBuilder saveInventoryMenu = new BukkitMenuBuilder("&6&lZapisywanie ekwipunku", 3, new MapBuilder<Integer, ItemStack>()
-            .put(10, VersionProvider.getItemIdentifyManager().wrapIdentity(ItemBuilder.of(Material.BOOK).setName("&cResetuj").toItemStack(),
-                    "reset-items", "reset-items"))
-            .put(17, VersionProvider.getItemIdentifyManager().wrapIdentity(ItemBuilder.of(Material.BOOK).setName("&aZapisz").toItemStack(),
-                    "save-items", "save-items"))
+            .put(10, ItemBuilder.of(Material.BOOK)
+                    .setName("&cResetuj")
+                    .addFlags(ItemFlag.HIDE_DESTROYS)
+                    .toItemStack())
+            .put(17, ItemBuilder.of(Material.BOOK)
+                    .addFlags(ItemFlag.HIDE_ENCHANTS)
+                    .setName("&aZapisz")
+                    .toItemStack())
             .put(0, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
             .put(1, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
             .put(2, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))

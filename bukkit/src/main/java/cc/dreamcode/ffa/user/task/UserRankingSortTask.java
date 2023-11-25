@@ -2,6 +2,7 @@ package cc.dreamcode.ffa.user.task;
 
 import cc.dreamcode.ffa.user.UserRanking;
 import cc.dreamcode.platform.bukkit.component.scheduler.Scheduler;
+import eu.okaeri.injector.annotation.Inject;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -11,7 +12,7 @@ import lombok.RequiredArgsConstructor;
  * @version 1.0-inDev
  * @since 2023-11-25
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_= @Inject)
 @Scheduler(delay = 160L, interval = 160L)
 public class UserRankingSortTask implements Runnable {
 

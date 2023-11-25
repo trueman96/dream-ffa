@@ -33,6 +33,7 @@ allprojects {
     }
 
     repositories {
+        mavenLocal()
         mavenCentral()
         maven { url "https://repo.dreamcode.cc/releases" }
         maven { url "https://storehouse.okaeri.eu/repository/maven-public" }

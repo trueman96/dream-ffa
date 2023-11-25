@@ -1,22 +1,19 @@
 package cc.dreamcode.ffa.user.saveinventory.command;
 
-import cc.dreamcode.command.annotation.Command;
-import cc.dreamcode.command.annotation.Path;
-import cc.dreamcode.command.annotation.RequireSender;
-import cc.dreamcode.command.sender.SenderType;
+import cc.dreamcode.command.bukkit.BukkitCommand;
 import cc.dreamcode.ffa.BukkitFFAPlugin;
 import cc.dreamcode.ffa.config.PluginConfig;
 import cc.dreamcode.ffa.user.User;
 import cc.dreamcode.ffa.user.UserCache;
 import cc.dreamcode.ffa.user.saveinventory.menu.SaveInventoryMenu;
 import eu.okaeri.injector.annotation.Inject;
-import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@RequireSender(type = SenderType.PLAYER)
-@RequiredArgsConstructor(onConstructor_= @Inject)
-@Command(label = "zapiszeq", description = "Zapisuje nam stan aktualnego ekwipunku.")
-public class SaveInventoryCommand {
+import java.util.List;
+
+public class SaveInventoryCommand extends BukkitCommand {
 
     private final UserCache userCache;
 
@@ -24,9 +21,25 @@ public class SaveInventoryCommand {
 
     private final PluginConfig pluginConfig;
 
-    @Path
-    void handle(Player player) {
+    @Inject
+    public SaveInventoryCommand(UserCache userCache, BukkitFFAPlugin plugin, PluginConfig pluginConfig) {
+        super("zapiszeq");
+        this.userCache = userCache;
+        this.plugin = plugin;
+        this.pluginConfig = pluginConfig;
+    }
+
+    @Override
+    public void content(@NonNull CommandSender sender, @NonNull String[] args) {
+        if (!(sender instanceof Player player)) {
+            return;
+        }
         final User user = this.userCache.get(player);
         new SaveInventoryMenu(user, player, this.plugin, this.pluginConfig).open();
+    }
+
+    @Override
+    public List<String> tab(@NonNull CommandSender sender, @NonNull String[] args) {
+        return null;
     }
 }

@@ -26,12 +26,8 @@ import java.util.Map;
 public final class MessageConfig extends OkaeriConfig {
 
     public BukkitNotice usage = new BukkitNotice(MinecraftNoticeType.CHAT, "&7Poprawne użycie: &c{usage}");
-    public BukkitNotice noPermission = new BukkitNotice(MinecraftNoticeType.CHAT, "&4Nie posiadasz uprawnien.");
-    public BukkitNotice noPlayer = new BukkitNotice(MinecraftNoticeType.CHAT, "&4Podanego gracza &cnie znaleziono.");
-    public BukkitNotice playerIsOffline = new BukkitNotice(MinecraftNoticeType.CHAT, "&4Podany gracz &cjest offline.");
-    public BukkitNotice notPlayer = new BukkitNotice(MinecraftNoticeType.CHAT, "&4Nie jestes graczem.");
-    public BukkitNotice notNumber = new BukkitNotice(MinecraftNoticeType.CHAT, "&4Podana liczba &cnie jest cyfra.");
-    public BukkitNotice playerIsMe = new BukkitNotice(MinecraftNoticeType.CHAT, "&4Nie rob tego &cna sobie.");
+    public BukkitNotice noPermission = new BukkitNotice(MinecraftNoticeType.CHAT, "&cNie posiadasz uprawnien.");
+    public BukkitNotice notPlayer = new BukkitNotice(MinecraftNoticeType.CHAT, "&cNie jestes graczem.");
 
     @Comment("Dostępne placeholdery: (points-to-remove, victim)")
     public BukkitNotice playerSuicideAnnounce = new BukkitNotice(MinecraftNoticeType.CHAT, "&c{victim} &8(&7-{points-to-remove}&8) &cpopełnił samobójstwo!");

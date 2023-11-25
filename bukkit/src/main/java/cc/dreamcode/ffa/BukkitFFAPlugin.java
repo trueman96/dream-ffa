@@ -1,20 +1,17 @@
 package cc.dreamcode.ffa;
 
-import cc.dreamcode.command.bukkit.BukkitCommand;
+import cc.dreamcode.command.bukkit.BukkitCommandProvider;
 import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.config.PluginConfig;
-import cc.dreamcode.ffa.handler.InvalidInputValueHandler;
-import cc.dreamcode.ffa.handler.InvalidSenderTypeHandler;
-import cc.dreamcode.ffa.handler.InvalidUsageHandler;
-import cc.dreamcode.ffa.handler.NoPermissionHandler;
-import cc.dreamcode.ffa.mcversion.VersionProvider;
 import cc.dreamcode.ffa.user.UserCache;
 import cc.dreamcode.ffa.user.UserRanking;
 import cc.dreamcode.ffa.user.UserRepository;
+import cc.dreamcode.ffa.user.UserStatisticsSerdes;
 import cc.dreamcode.ffa.user.command.KillStreakCommand;
 import cc.dreamcode.ffa.user.controller.UserController;
 import cc.dreamcode.ffa.user.placeholder.UserPlaceholder;
 import cc.dreamcode.ffa.user.placeholder.UserRankingPlaceholder;
+import cc.dreamcode.ffa.user.saveinventory.UserSavedInventorySerdes;
 import cc.dreamcode.ffa.user.saveinventory.command.SaveInventoryCommand;
 import cc.dreamcode.ffa.user.task.UserCombatInfoUpdateTask;
 import cc.dreamcode.ffa.user.task.UserItemsDepositTask;
@@ -25,14 +22,11 @@ import cc.dreamcode.notice.minecraft.bukkit.serdes.BukkitNoticeSerdes;
 import cc.dreamcode.platform.DreamVersion;
 import cc.dreamcode.platform.bukkit.DreamBukkitConfig;
 import cc.dreamcode.platform.bukkit.DreamBukkitPlatform;
+import cc.dreamcode.platform.bukkit.component.CommandComponentResolver;
 import cc.dreamcode.platform.bukkit.component.ConfigurationComponentResolver;
 import cc.dreamcode.platform.bukkit.component.ListenerComponentResolver;
 import cc.dreamcode.platform.bukkit.component.RunnableComponentResolver;
 import cc.dreamcode.platform.component.ComponentManager;
-import cc.dreamcode.platform.component.resolver.CommandBindComponentResolver;
-import cc.dreamcode.platform.component.resolver.CommandComponentResolver;
-import cc.dreamcode.platform.component.resolver.CommandExtensionComponentResolver;
-import cc.dreamcode.platform.component.resolver.CommandHandlerComponentResolver;
 import cc.dreamcode.platform.persistence.DreamPersistence;
 import cc.dreamcode.platform.persistence.component.DocumentPersistenceComponentResolver;
 import cc.dreamcode.platform.persistence.component.DocumentRepositoryComponentResolver;
@@ -42,7 +36,6 @@ import eu.okaeri.persistence.document.DocumentPersistence;
 import eu.okaeri.tasker.bukkit.BukkitTasker;
 import lombok.Getter;
 import lombok.NonNull;
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 import java.util.Optional;
@@ -60,24 +53,19 @@ public final class BukkitFFAPlugin extends DreamBukkitPlatform implements DreamB
     public void enable(@NonNull ComponentManager componentManager) {
         this.registerInjectable(BukkitTasker.newPool(this));
         this.registerInjectable(BukkitMenuProvider.create(this));
-        this.registerInjectable(BukkitCommand.create(this));
+        this.registerInjectable(BukkitCommandProvider.create(this, this.getInjector()));
 
         componentManager.registerResolver(ConfigurationComponentResolver.class);
         componentManager.registerComponent(MessageConfig.class);
 
         componentManager.registerResolver(CommandComponentResolver.class);
-        componentManager.registerResolver(CommandBindComponentResolver.class);
-        componentManager.registerResolver(CommandHandlerComponentResolver.class);
-        componentManager.registerResolver(CommandExtensionComponentResolver.class);
         componentManager.registerResolver(ListenerComponentResolver.class);
         componentManager.registerResolver(RunnableComponentResolver.class);
 
-        componentManager.registerComponent(InvalidInputValueHandler.class);
-        componentManager.registerComponent(InvalidSenderTypeHandler.class);
-        componentManager.registerComponent(InvalidUsageHandler.class);
-        componentManager.registerComponent(NoPermissionHandler.class);
-
-        componentManager.registerComponent(VersionProvider.class);
+        componentManager.registerComponent(MessageConfig.class, messageConfig -> this.getInject(BukkitCommandProvider.class).ifPresent(bukkitCommandProvider -> {
+            bukkitCommandProvider.setRequiredPermissionMessage(messageConfig.noPermission.getText());
+            bukkitCommandProvider.setRequiredPlayerMessage(messageConfig.notPlayer.getText());
+        }));
 
         componentManager.registerComponent(PluginConfig.class, pluginConfig -> {
             componentManager.setDebug(pluginConfig.debug);
@@ -131,6 +119,8 @@ public final class BukkitFFAPlugin extends DreamBukkitPlatform implements DreamB
     public @NonNull OkaeriSerdesPack getPersistenceSerdesPack() {
         return registry -> {
             registry.register(new SerdesBukkit());
+            registry.register(new UserSavedInventorySerdes());
+            registry.register(new UserStatisticsSerdes());
         };
     }
 

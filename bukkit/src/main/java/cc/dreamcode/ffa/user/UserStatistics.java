@@ -1,6 +1,8 @@
 package cc.dreamcode.ffa.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * UserStatistics.java
@@ -10,6 +12,8 @@ import lombok.Data;
  * @since 2023-11-24
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public final class UserStatistics {
 
     private int points, kills, deaths, assists, killStreak, maxKillStreak;
