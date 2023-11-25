@@ -4,11 +4,9 @@ import cc.dreamcode.notice.minecraft.MinecraftNoticeType;
 import cc.dreamcode.notice.minecraft.bukkit.BukkitNotice;
 import cc.dreamcode.platform.bukkit.component.configuration.Configuration;
 import cc.dreamcode.utilities.builder.MapBuilder;
-import cc.dreamcode.utilities.bukkit.builder.ItemBuilder;
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.*;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
@@ -67,4 +65,20 @@ public final class MessageConfig extends OkaeriConfig {
             .put(Material.ENCHANTED_GOLDEN_APPLE, BukkitNotice.of(MinecraftNoticeType.CHAT, "&7Zabrano nadmiar &8(&7{amount}&8) &7koxów z ekwipunku!"))
             .put(Material.GOLDEN_APPLE, BukkitNotice.of(MinecraftNoticeType.CHAT, "&7Zabrano nadmiar &8(&7{amount}&8) &7refili z ekwipunku!"))
             .build();
+
+    @Comment("Dostępne placeholdery: (current_ks, maximum_ks)")
+    public BukkitNotice killStreakInfo = BukkitNotice.of(MinecraftNoticeType.CHAT,
+            "&8» &7Aktualny KS: &f{current_ks}",
+            "&8» &7Maksymalny KS: &f{maximum_ks}"
+    );
+
+    @Comment("Dostępne placeholdery: (current_ks, maximum_ks)")
+    public Map<Integer, BukkitNotice> killStreakAnnounce = new MapBuilder<Integer, BukkitNotice>()
+            .put(1, BukkitNotice.of(MinecraftNoticeType.CHAT, "&cGracz {killer} osiągnął killstreak {current_ks}"))
+            .put(10, BukkitNotice.of(MinecraftNoticeType.CHAT, "&cGracz {killer} osiągnął killstreak {current_ks}"))
+            .build();
+
+    @Comment("Dostępne placeholdery: (items-saved)")
+    public BukkitNotice savedInventory = BukkitNotice.of(MinecraftNoticeType.CHAT, "&aPomyślnie zapisano obecny stan ekwipunku &7(&fzapisano: {items-saved}&7)");
+
 }

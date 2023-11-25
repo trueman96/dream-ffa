@@ -3,6 +3,8 @@ package cc.dreamcode.ffa.user.controller;
 import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.config.PluginConfig;
 import cc.dreamcode.ffa.user.*;
+import cc.dreamcode.ffa.user.saveinventory.UserSavedInventory;
+import cc.dreamcode.notice.minecraft.bukkit.BukkitNotice;
 import cc.dreamcode.utilities.RoundUtil;
 import cc.dreamcode.utilities.builder.MapBuilder;
 import cc.dreamcode.utilities.bukkit.ItemUtil;
@@ -18,10 +20,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.projectiles.ProjectileSource;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
@@ -59,7 +63,9 @@ public final class UserController implements Listener {
                     final User user = userSimpleEntry.getValue();
                     user.setName(player.getName());
                     if (!userSimpleEntry.getKey()) {
+                        user.setStatistics(new UserStatistics());
                         user.getStatistics().setPoints(this.pluginConfig.initialValueOfPoints);
+                        user.setSavedInventory(new UserSavedInventory());
                     }
                     user.setCombat(new UserCombat());
                     user.save();
@@ -67,7 +73,7 @@ public final class UserController implements Listener {
                     this.userCache.add(user);
                 })
                 .acceptSync(user -> {
-                    setupInventory(player);
+                    setupInventory(player, user.getValue());
                 })
                 .execute();
     }
@@ -103,17 +109,25 @@ public final class UserController implements Listener {
         final Player player = event.getPlayer();
 
         this.tasker.newChain()
-                .async(() -> setupInventory(player))
+                .async(() -> this.userCache.get(player))
+                .acceptAsync(user -> {
+                    setupInventory(player, user);
+                })
                 .execute();
     }
 
-    private void setupInventory(Player player) {
+    private void setupInventory(Player player, User user) {
         player.getInventory().clear();
 
         final PlayerInventory inventory = player.getInventory();
         this.pluginConfig.equipmentAfterJoin.forEach(inventory::setItem);
         ItemUtil.addItems(this.pluginConfig.itemsAfterJoin, inventory);
-        player.getActivePotionEffects().stream().map(PotionEffect::getType).forEach(player::removePotionEffect);
+        player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
+
+        final UserSavedInventory savedInventory = user.getSavedInventory();
+        if (savedInventory.getInventory() != null) {
+            player.getInventory().setContents(savedInventory.getInventory());
+        }
     }
 
     @EventHandler
@@ -229,6 +243,16 @@ public final class UserController implements Listener {
 
                     killerStatistics.addPoints(pointsToAdd);
                     killerStatistics.addKillStreak();
+
+                    BukkitNotice notice = this.messageConfig.killStreakAnnounce.get(killerStatistics.getKillStreak());
+                    if (notice != null) {
+                        notice.sendAll(new MapBuilder<String, Object>()
+                                .put("killer", killer.getName())
+                                .put("current_ks", killerStatistics.getKillStreak())
+                                .put("maximum_ks", killerStatistics.getMaxKillStreak())
+                                .build());
+                    }
+
                     killerStatistics.addKill();
                     killerUser.save();
                 })

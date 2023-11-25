@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public final class UserStatistics {
 
-    private int points, kills, deaths, assists, killStreak;
+    private int points, kills, deaths, assists, killStreak, maxKillStreak;
 
     /**
      * Adds the given points to the current points total.
@@ -56,6 +56,9 @@ public final class UserStatistics {
      */
     public void addKillStreak() {
         killStreak++;
+        if (killStreak > maxKillStreak) {
+            maxKillStreak = killStreak;
+        }
     }
 
     /**

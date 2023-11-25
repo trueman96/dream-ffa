@@ -1,12 +1,12 @@
 package cc.dreamcode.ffa.user;
 
+import cc.dreamcode.ffa.user.saveinventory.UserSavedInventory;
 import eu.okaeri.configs.annotation.NameModifier;
 import eu.okaeri.configs.annotation.NameStrategy;
 import eu.okaeri.configs.annotation.Names;
 import eu.okaeri.persistence.document.Document;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -17,6 +17,8 @@ public final class User extends Document {
 
     private String name;
     private UserStatistics statistics;
+    private UserSavedInventory savedInventory;
+
     private transient UserCombat combat;
 
     public UUID getUniqueId() {

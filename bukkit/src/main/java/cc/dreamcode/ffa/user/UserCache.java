@@ -1,9 +1,7 @@
 package cc.dreamcode.ffa.user;
 
 import com.google.common.collect.Maps;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.Collections;

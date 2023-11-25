@@ -1,5 +1,7 @@
 package cc.dreamcode.ffa.config;
 
+import cc.dreamcode.ffa.mcversion.VersionProvider;
+import cc.dreamcode.menu.bukkit.BukkitMenuBuilder;
 import cc.dreamcode.platform.bukkit.component.configuration.Configuration;
 import cc.dreamcode.platform.persistence.StorageConfig;
 import cc.dreamcode.utilities.builder.ListBuilder;
@@ -105,4 +107,35 @@ public final class PluginConfig extends OkaeriConfig {
             .put(12, Material.GOLDEN_APPLE)
             .build();
 
+    public BukkitMenuBuilder saveInventoryMenu = new BukkitMenuBuilder("&6&lZapisywanie ekwipunku", 3, new MapBuilder<Integer, ItemStack>()
+            .put(10, VersionProvider.getItemIdentifyManager().wrapIdentity(ItemBuilder.of(Material.BOOK).setName("&cResetuj").toItemStack(),
+                    "reset-items", "reset-items"))
+            .put(17, VersionProvider.getItemIdentifyManager().wrapIdentity(ItemBuilder.of(Material.BOOK).setName("&aZapisz").toItemStack(),
+                    "save-items", "save-items"))
+            .put(0, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(1, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(2, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(3, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(4, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(5, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(6, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(7, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(8, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(9, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(11, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(12, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(13, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(14, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(15, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(16, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(18, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(19, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(20, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(21, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(22, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(23, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(24, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(25, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(26, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .build());
 }
