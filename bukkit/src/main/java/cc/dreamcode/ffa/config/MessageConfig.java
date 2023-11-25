@@ -25,7 +25,7 @@ import java.util.Map;
 @Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
 public final class MessageConfig extends OkaeriConfig {
 
-    public BukkitNotice usage = new BukkitNotice(MinecraftNoticeType.CHAT, "&7Poprawne uzycie: &c{usage}");
+    public BukkitNotice usage = new BukkitNotice(MinecraftNoticeType.CHAT, "&7Poprawne użycie: &c{usage}");
     public BukkitNotice noPermission = new BukkitNotice(MinecraftNoticeType.CHAT, "&4Nie posiadasz uprawnien.");
     public BukkitNotice noPlayer = new BukkitNotice(MinecraftNoticeType.CHAT, "&4Podanego gracza &cnie znaleziono.");
     public BukkitNotice playerIsOffline = new BukkitNotice(MinecraftNoticeType.CHAT, "&4Podany gracz &cjest offline.");
@@ -81,4 +81,14 @@ public final class MessageConfig extends OkaeriConfig {
     @Comment("Dostępne placeholdery: (items-saved)")
     public BukkitNotice savedInventory = BukkitNotice.of(MinecraftNoticeType.CHAT, "&aPomyślnie zapisano obecny stan ekwipunku &7(&fzapisano: {items-saved}&7)");
 
+    @Comment({
+            "Format topki punktów po użyciu placeholder'a",
+            "Dostępne placeholdery: (user-name, user-points)"
+    })
+    public String pointsRankingFormat = "&f{user-name} &8[&7{user-points}&8]";
+    public String pointsRankingNotFound = "&cBrak!";
+    public String killStreakRankingFormat = "&f{user-name} &8[&7{user-ks}&8]";
+    public String killStreakRankingNotFound = "&cBrak!";
+    public String maxKillStreakRankingFormat = "&f{user-name} &8[&7{user-max-ks}&8]";
+    public String maxKillStreakRankingNotFound = "&cBrak!";
 }

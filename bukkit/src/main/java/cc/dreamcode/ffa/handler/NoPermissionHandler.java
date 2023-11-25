@@ -14,6 +14,6 @@ public class NoPermissionHandler implements NoPermissionType {
 
     @Override
     public void handle(@NonNull DreamSender<?> sender, @NonNull String permission) {
-
+        sender.sendMessage("no perm");
     }
 }

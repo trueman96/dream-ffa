@@ -6,8 +6,11 @@ import lombok.NonNull;
 import org.bukkit.entity.HumanEntity;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -50,7 +53,7 @@ public interface UserRepository extends DocumentRepository<UUID, User> {
     /**
      * Finds a User by a HumanEntity. If no User is found, a new User with the given UUID and username is created and stored.
      *
-     * @param humanEntity The HumanEntity representing the User.
+     * @param humanEntity  The HumanEntity representing the User.
      * @return             Entry with boolean if user was found or created and the User.
      */
     default SimpleEntry<Boolean, User> findOrCreateByHumanEntity(@NonNull HumanEntity humanEntity) {
@@ -71,5 +74,4 @@ public interface UserRepository extends DocumentRepository<UUID, User> {
                         : user.getName().equals(name))
                 .findFirst();
     }
-
 }

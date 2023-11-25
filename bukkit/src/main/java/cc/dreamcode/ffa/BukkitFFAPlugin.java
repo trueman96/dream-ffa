@@ -9,12 +9,16 @@ import cc.dreamcode.ffa.handler.InvalidUsageHandler;
 import cc.dreamcode.ffa.handler.NoPermissionHandler;
 import cc.dreamcode.ffa.mcversion.VersionProvider;
 import cc.dreamcode.ffa.user.UserCache;
+import cc.dreamcode.ffa.user.UserRanking;
 import cc.dreamcode.ffa.user.UserRepository;
 import cc.dreamcode.ffa.user.command.KillStreakCommand;
 import cc.dreamcode.ffa.user.controller.UserController;
+import cc.dreamcode.ffa.user.placeholder.UserPlaceholder;
+import cc.dreamcode.ffa.user.placeholder.UserRankingPlaceholder;
 import cc.dreamcode.ffa.user.saveinventory.command.SaveInventoryCommand;
 import cc.dreamcode.ffa.user.task.UserCombatInfoUpdateTask;
 import cc.dreamcode.ffa.user.task.UserItemsDepositTask;
+import cc.dreamcode.ffa.user.task.UserRankingSortTask;
 import cc.dreamcode.menu.bukkit.BukkitMenuProvider;
 import cc.dreamcode.menu.bukkit.okaeri.MenuBuilderSerdes;
 import cc.dreamcode.notice.minecraft.bukkit.serdes.BukkitNoticeSerdes;
@@ -38,6 +42,10 @@ import eu.okaeri.persistence.document.DocumentPersistence;
 import eu.okaeri.tasker.bukkit.BukkitTasker;
 import lombok.Getter;
 import lombok.NonNull;
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+
+import java.util.Optional;
 
 public final class BukkitFFAPlugin extends DreamBukkitPlatform implements DreamBukkitConfig, DreamPersistence {
 
@@ -84,14 +92,21 @@ public final class BukkitFFAPlugin extends DreamBukkitPlatform implements DreamB
             componentManager.registerComponent(UserRepository.class);
             componentManager.registerComponent(UserCache.class);
             componentManager.registerComponent(UserController.class);
+            componentManager.registerComponent(UserRanking.class);
 
             componentManager.registerComponent(UserCombatInfoUpdateTask.class);
             componentManager.registerComponent(UserItemsDepositTask.class);
+            componentManager.registerComponent(UserRankingSortTask.class);
 
             componentManager.registerComponent(KillStreakCommand.class);
             componentManager.registerComponent(SaveInventoryCommand.class);
         });
 
+        Optional.ofNullable(this.getServer().getPluginManager().getPlugin("PlaceholderAPI"))
+                .ifPresent(plugin -> {
+                    componentManager.registerComponent(UserPlaceholder.class, PlaceholderExpansion::register);
+                    componentManager.registerComponent(UserRankingPlaceholder.class, PlaceholderExpansion::register);
+                });
     }
 
     @Override

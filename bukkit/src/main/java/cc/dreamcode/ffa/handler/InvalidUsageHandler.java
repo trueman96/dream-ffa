@@ -6,6 +6,7 @@ import cc.dreamcode.command.context.CommandPathContext;
 import cc.dreamcode.command.handler.type.InvalidUsageType;
 import cc.dreamcode.command.sender.DreamSender;
 import cc.dreamcode.ffa.config.MessageConfig;
+import cc.dreamcode.utilities.bukkit.ChatUtil;
 import eu.okaeri.injector.annotation.Inject;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,6 @@ public class InvalidUsageHandler implements InvalidUsageType {
 
     @Override
     public void handle(@NonNull DreamSender<?> sender, @NonNull DreamCommandExecutor executor, @NonNull List<CommandPathContext> commandPathContextList, @NonNull CommandInvokeContext commandInvokeContext) {
-
+        sender.sendMessage("invalid usage");
     }
 }

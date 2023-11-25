@@ -5,3 +5,6 @@ description: "Dream-FFA plugin written by dreamcode.cc"
 website: "https://dreamcode.cc"
 author: "vkie"
 api-version: 1.16
+
+softdepend:
+  - 'PlaceholderAPI'

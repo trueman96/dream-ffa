@@ -15,6 +15,6 @@ public class InvalidSenderTypeHandler implements InvalidSenderType {
 
     @Override
     public void handle(@NonNull DreamSender<?> sender, @NonNull SenderType requiredSender) {
-
+        sender.sendMessage("bad type");
     }
 }

@@ -3,10 +3,7 @@ package cc.dreamcode.ffa.user;
 import com.google.common.collect.Maps;
 import org.bukkit.entity.HumanEntity;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class UserCache {
 
