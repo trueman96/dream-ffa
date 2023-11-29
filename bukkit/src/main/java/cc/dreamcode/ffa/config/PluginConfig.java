@@ -16,6 +16,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -85,7 +86,7 @@ public final class PluginConfig extends OkaeriConfig {
 
     @Comment("Zablokowane komendy podczas antylogouta")
     public List<String> disallowedCommands = new ListBuilder<String>()
-            .addAll(List.of(
+            .addAll(Arrays.asList(
                     "wb",
                     "workbench",
                     "kit",
@@ -104,44 +105,43 @@ public final class PluginConfig extends OkaeriConfig {
 
     @Comment("Itemki których nadmiar będzie zabierany")
     public Map<Integer, Material> depositItemsMap = new MapBuilder<Integer, Material>()
-            .put(1, Material.ENCHANTED_GOLDEN_APPLE)
             .put(12, Material.GOLDEN_APPLE)
             .build();
 
     @Comment("Nie usuwaj flag (HIDE_DESTROYS, HIDE_ENCHANTS) bo bez nich gui nie będzie funkcjonować!")
     public BukkitMenuBuilder saveInventoryMenu = new BukkitMenuBuilder("&6&lZapisywanie ekwipunku", 3, new MapBuilder<Integer, ItemStack>()
-            .put(10, ItemBuilder.of(Material.BOOK)
+            .put(10, ItemBuilder.of(XMaterial.BOOK.parseItem())
                     .setName("&cResetuj")
                     .addFlags(ItemFlag.HIDE_DESTROYS)
                     .toItemStack())
-            .put(17, ItemBuilder.of(Material.BOOK)
+            .put(16, ItemBuilder.of(XMaterial.BOOK.parseItem())
                     .addFlags(ItemFlag.HIDE_ENCHANTS)
                     .setName("&aZapisz")
                     .toItemStack())
-            .put(0, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(1, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(2, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(3, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(4, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(5, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(6, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(7, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(8, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(9, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(11, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(12, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(13, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(14, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(15, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(16, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(18, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(19, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(20, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(21, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(22, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(23, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(24, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(25, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
-            .put(26, new ItemStack(Material.BLACK_STAINED_GLASS_PANE))
+            .put(0, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(1, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(2, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(3, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(4, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(5, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(6, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(7, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(8, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(9, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(11, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(12, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(13, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(14, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(15, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(17, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(18, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(19, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(20, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(21, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(22, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(23, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(24, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(25, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
+            .put(26, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
             .build());
 }

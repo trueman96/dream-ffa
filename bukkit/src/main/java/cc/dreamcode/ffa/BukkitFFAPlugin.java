@@ -7,6 +7,7 @@ import cc.dreamcode.ffa.user.UserCache;
 import cc.dreamcode.ffa.user.UserRanking;
 import cc.dreamcode.ffa.user.UserRepository;
 import cc.dreamcode.ffa.user.UserStatisticsSerdes;
+import cc.dreamcode.ffa.user.command.ConfigurationReloadCommand;
 import cc.dreamcode.ffa.user.command.KillStreakCommand;
 import cc.dreamcode.ffa.user.controller.UserController;
 import cc.dreamcode.ffa.user.placeholder.UserPlaceholder;
@@ -88,6 +89,7 @@ public final class BukkitFFAPlugin extends DreamBukkitPlatform implements DreamB
 
             componentManager.registerComponent(KillStreakCommand.class);
             componentManager.registerComponent(SaveInventoryCommand.class);
+            componentManager.registerComponent(ConfigurationReloadCommand.class);
         });
 
         Optional.ofNullable(this.getServer().getPluginManager().getPlugin("PlaceholderAPI"))

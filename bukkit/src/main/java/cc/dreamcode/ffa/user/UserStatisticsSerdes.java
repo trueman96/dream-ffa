@@ -15,7 +15,6 @@ public class UserStatisticsSerdes implements ObjectSerializer<UserStatistics> {
 
     @Override
     public void serialize(@NonNull UserStatistics object, @NonNull SerializationData data, @NonNull GenericsDeclaration generics) {
-        //    private int points, kills, deaths, assists, killStreak, maxKillStreak;
         data.add("points", object.getPoints());
         data.add("kills", object.getKills());
         data.add("deaths", object.getDeaths());

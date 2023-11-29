@@ -13,6 +13,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static java.util.Objects.isNull;
 
@@ -62,6 +64,6 @@ public final class UserCombatInfoUpdateTask implements Runnable {
     }
 
     public String multiply(String s, int n) {
-        return String.valueOf(s).repeat(Math.max(0, n));
+        return IntStream.range(0, n).mapToObj(i -> s).collect(Collectors.joining());
     }
 }

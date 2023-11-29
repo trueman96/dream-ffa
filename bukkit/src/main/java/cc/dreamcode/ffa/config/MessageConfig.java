@@ -58,8 +58,9 @@ public final class MessageConfig extends OkaeriConfig {
 
     @Comment("Wiadomości o zabraniu nadmiaru danych itemków")
     public Map<Material, BukkitNotice> depositMessages = new MapBuilder<Material, BukkitNotice>()
-            .put(Material.ENCHANTED_GOLDEN_APPLE, BukkitNotice.of(MinecraftNoticeType.CHAT, "&7Zabrano nadmiar &8(&7{amount}&8) &7koxów z ekwipunku!"))
-            .put(Material.GOLDEN_APPLE, BukkitNotice.of(MinecraftNoticeType.CHAT, "&7Zabrano nadmiar &8(&7{amount}&8) &7refili z ekwipunku!"))
+            .put(Material.GOLDEN_APPLE,
+                    BukkitNotice.of(MinecraftNoticeType.CHAT,
+                            "&7Zabrano nadmiar &8(&7{amount}&8) &7refili z ekwipunku!"))
             .build();
 
     @Comment("Dostępne placeholdery: (current_ks, maximum_ks)")
@@ -76,6 +77,7 @@ public final class MessageConfig extends OkaeriConfig {
 
     @Comment("Dostępne placeholdery: (items-saved)")
     public BukkitNotice savedInventory = BukkitNotice.of(MinecraftNoticeType.CHAT, "&aPomyślnie zapisano obecny stan ekwipunku &7(&fzapisano: {items-saved}&7)");
+    public BukkitNotice resetedInventory = BukkitNotice.of(MinecraftNoticeType.CHAT, "&aPomyślnie zresetowano stan zapisanego ekwipunku.");
 
     @Comment({
             "Format topki punktów po użyciu placeholder'a",
@@ -87,4 +89,5 @@ public final class MessageConfig extends OkaeriConfig {
     public String killStreakRankingNotFound = "&cBrak!";
     public String maxKillStreakRankingFormat = "&f{user-name} &8[&7{user-max-ks}&8]";
     public String maxKillStreakRankingNotFound = "&cBrak!";
+    public BukkitNotice reloaded = BukkitNotice.of(MinecraftNoticeType.CHAT, "&aPrzeładowano konfiguracje!");
 }

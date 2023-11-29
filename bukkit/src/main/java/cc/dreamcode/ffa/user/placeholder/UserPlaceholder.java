@@ -38,25 +38,25 @@ public class UserPlaceholder extends PlaceholderExpansion {
         final User user = this.userCache.get(player.getUniqueId());
         final UserStatistics statistics = user.getStatistics();
         switch (params.toLowerCase()) {
-            case "name" -> {
+            case "name": {
                 return player.getName();
             }
-            case "points" -> {
+            case "points": {
                 return String.valueOf(statistics.getPoints());
             }
-            case "kills" -> {
+            case "kills": {
                 return String.valueOf(statistics.getKills());
             }
-            case "deaths" -> {
+            case "deaths": {
                 return String.valueOf(statistics.getDeaths());
             }
-            case "assists" -> {
+            case "assists": {
                 return String.valueOf(statistics.getAssists());
             }
-            case "kill-streak" -> {
+            case "kill-streak": {
                 return String.valueOf(statistics.getKillStreak());
             }
-            case "max-kill-streak" -> {
+            case "max-kill-streak": {
                 return String.valueOf(statistics.getMaxKillStreak());
             }
         }

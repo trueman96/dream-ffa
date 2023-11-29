@@ -25,6 +25,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.projectiles.ProjectileSource;
@@ -123,14 +124,32 @@ public final class UserController implements Listener {
         player.getInventory().clear();
 
         final PlayerInventory inventory = player.getInventory();
-        this.pluginConfig.equipmentAfterJoin.forEach(inventory::setItem);
+        for (Map.Entry<EquipmentSlot, ItemStack> entry : this.pluginConfig.equipmentAfterJoin.entrySet()) {
+            EquipmentSlot key = entry.getKey();
+            ItemStack value = entry.getValue();
+            switch (key) {
+                case HAND:
+                    inventory.setItemInHand(value);
+                    break;
+                case FEET:
+                    inventory.setBoots(value);
+                    break;
+                case LEGS:
+                    inventory.setLeggings(value);
+                    break;
+                case CHEST:
+                    inventory.setChestplate(value);
+                    break;
+                case HEAD:
+                    inventory.setHelmet(value);
+                    break;
+            }
+        }
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
-
+        ItemUtil.addItems(this.pluginConfig.itemsAfterJoin, inventory);
         final UserSavedInventory savedInventory = user.getSavedInventory();
         if (savedInventory != null && savedInventory.getInventory() != null) {
-            player.getInventory().setStorageContents(savedInventory.getInventory());
-        } else {
-            ItemUtil.addItems(this.pluginConfig.itemsAfterJoin, inventory);
+            player.getInventory().setContents(savedInventory.getInventory());
         }
     }
 
@@ -290,9 +309,10 @@ public final class UserController implements Listener {
             return;
         }
 
-        if (!(event.getEntity() instanceof Player victim)) {
+        if (!(event.getEntity() instanceof Player)) {
             return;
         }
+        Player victim = (Player) event.getEntity();
 
         getAttackerFrom(event).ifPresent(attacker -> {
             if (victim.equals(attacker)) {

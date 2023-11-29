@@ -2,6 +2,7 @@ package cc.dreamcode.ffa.user.saveinventory.command;
 
 import cc.dreamcode.command.bukkit.BukkitCommand;
 import cc.dreamcode.ffa.BukkitFFAPlugin;
+import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.config.PluginConfig;
 import cc.dreamcode.ffa.user.User;
 import cc.dreamcode.ffa.user.UserCache;
@@ -20,22 +21,25 @@ public class SaveInventoryCommand extends BukkitCommand {
     private final BukkitFFAPlugin plugin;
 
     private final PluginConfig pluginConfig;
+    private final MessageConfig messageConfig;
 
     @Inject
-    public SaveInventoryCommand(UserCache userCache, BukkitFFAPlugin plugin, PluginConfig pluginConfig) {
+    public SaveInventoryCommand(UserCache userCache, BukkitFFAPlugin plugin, PluginConfig pluginConfig, MessageConfig messageConfig) {
         super("zapiszeq");
         this.userCache = userCache;
         this.plugin = plugin;
         this.pluginConfig = pluginConfig;
+        this.messageConfig = messageConfig;
     }
 
     @Override
     public void content(@NonNull CommandSender sender, @NonNull String[] args) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player)) {
             return;
         }
+        Player player = (Player) sender;
         final User user = this.userCache.get(player);
-        new SaveInventoryMenu(user, player, this.plugin, this.pluginConfig).open();
+        new SaveInventoryMenu(user, player, this.plugin, this.pluginConfig, this.messageConfig).open();
     }
 
     @Override

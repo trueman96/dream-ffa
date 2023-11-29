@@ -33,7 +33,7 @@ public class UserItemsDepositTask implements Runnable {
         for (final Player player : Bukkit.getOnlinePlayers()) {
             for (final Map.Entry<Integer, Material> entry : this.pluginConfig.depositItemsMap.entrySet()) {
                 final int depositLimit = entry.getKey();
-                final Material depositItem = entry.getValue();
+                final ItemStack depositItem = new ItemStack(entry.getValue());
                 final int itemToRemove = countItemsIgnoreItemMeta(player, depositItem);
 
                 if (itemToRemove > depositLimit) {
@@ -42,7 +42,7 @@ public class UserItemsDepositTask implements Runnable {
                     itemStack.setAmount(amountToRemove);
                     removeItemIgnoreItemMeta(player, itemStack);
 
-                    this.messageConfig.depositMessages.get(depositItem)
+                    this.messageConfig.depositMessages.get(depositItem.getType())
                             .send(player, new MapBuilder<String, Object>()
                                     .put("amount", amountToRemove)
                                     .build());
@@ -76,8 +76,8 @@ public class UserItemsDepositTask implements Runnable {
         }
     }
 
-    public static int countItemsIgnoreItemMeta(Player player, Material item) {
-        if (item == null || item == Material.AIR) {
+    public static int countItemsIgnoreItemMeta(Player player, ItemStack item) {
+        if (item == null || item.getType() == Material.AIR) {
             return 0;
         }
 
@@ -86,7 +86,7 @@ public class UserItemsDepositTask implements Runnable {
         for (int i = 0; i < inventory.getSize(); i++) {
             ItemStack itemStack = inventory.getItem(i);
 
-            if (itemStack == null || item != itemStack.getType()) {
+            if (itemStack == null || item.getType() != itemStack.getType()) {
                 continue;
             }
 

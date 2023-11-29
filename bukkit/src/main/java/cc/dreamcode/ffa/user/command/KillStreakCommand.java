@@ -9,6 +9,7 @@ import cc.dreamcode.utilities.builder.MapBuilder;
 import eu.okaeri.injector.annotation.Inject;
 import lombok.NonNull;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -28,9 +29,10 @@ public class KillStreakCommand extends BukkitCommand {
 
     @Override
     public void content(@NonNull CommandSender sender, @NonNull String[] args) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player)) {
             return;
         }
+        Player player = (Player) sender;
         final User user = this.userCache.get(player);
         final UserStatistics statistics = user.getStatistics();
         this.messageConfig.killStreakInfo.send(player, new MapBuilder<String, Object>()
