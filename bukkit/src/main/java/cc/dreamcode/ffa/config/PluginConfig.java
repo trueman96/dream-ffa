@@ -16,6 +16,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -70,10 +71,10 @@ public final class PluginConfig extends OkaeriConfig {
     public int valueOfPointsToRemoveAfterSuicide = 5;
 
     @Comment("Długość trwania walki po zabiciu gracza.")
-    public long combatTimeAfterKill = TimeUnit.SECONDS.toMillis(15);
+    public Duration combatTimeAfterKill = Duration.ofSeconds(15);
 
     @Comment("Długość trwania walki po zaatakowaniu gracza.")
-    public long combatTimeAfterDamage = TimeUnit.SECONDS.toMillis(21);
+    public Duration combatTimeAfterDamage = Duration.ofSeconds(21);
 
     @Comment("Czy title po zabiciu gracza ma być włączony?")
     public boolean killTitle = true;

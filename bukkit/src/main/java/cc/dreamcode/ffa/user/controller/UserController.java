@@ -188,7 +188,7 @@ public final class UserController implements Listener {
 
                     final User killerUser = this.userCache.get(killer);
                     final UserStatistics killerStatistics = killerUser.getStatistics();
-                    killerUser.getCombat().setLastAttackTime(System.currentTimeMillis() + this.pluginConfig.combatTimeAfterKill);
+                    killerUser.getCombat().setLastAttackTime(System.currentTimeMillis() + this.pluginConfig.combatTimeAfterKill.toMillis());
 
                     int pointsToAdd = (int) (43.0 + (killerStatistics.getPoints() - victimStatistics.getPoints()) * -0.10),
                             pointsToRemove = (int) (pointsToAdd / 1.7);
@@ -324,7 +324,7 @@ public final class UserController implements Listener {
             final UserCombat victimCombat = victimUser.getCombat();
             final UserCombat attackerCombat = attackerUser.getCombat();
 
-            long combatTime = System.currentTimeMillis() + this.pluginConfig.combatTimeAfterDamage;
+            long combatTime = System.currentTimeMillis() + this.pluginConfig.combatTimeAfterDamage.toMillis();
             victimCombat.setLastAttackTime(combatTime);
             attackerCombat.setLastAttackTime(combatTime);
 
