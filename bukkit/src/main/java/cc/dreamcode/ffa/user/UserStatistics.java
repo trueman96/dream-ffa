@@ -1,7 +1,9 @@
 package cc.dreamcode.ffa.user;
 
+import eu.okaeri.configs.OkaeriConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -14,7 +16,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public final class UserStatistics {
+@EqualsAndHashCode(callSuper = false)
+public final class UserStatistics extends OkaeriConfig {
 
     private int points, kills, deaths, assists, killStreak, maxKillStreak;
 

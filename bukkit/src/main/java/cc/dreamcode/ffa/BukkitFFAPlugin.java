@@ -6,7 +6,6 @@ import cc.dreamcode.ffa.config.PluginConfig;
 import cc.dreamcode.ffa.user.UserCache;
 import cc.dreamcode.ffa.user.ranking.UserRanking;
 import cc.dreamcode.ffa.user.UserRepository;
-import cc.dreamcode.ffa.user.UserStatisticsSerdes;
 import cc.dreamcode.ffa.config.ConfigReloadCommand;
 import cc.dreamcode.ffa.command.KillStreakCommand;
 import cc.dreamcode.ffa.command.SetSpawnCommand;
@@ -127,7 +126,6 @@ public final class BukkitFFAPlugin extends DreamBukkitPlatform implements DreamB
         return registry -> {
             registry.register(new SerdesBukkit());
             registry.register(new UserSavedInventorySerdes());
-            registry.register(new UserStatisticsSerdes());
         };
     }
 
