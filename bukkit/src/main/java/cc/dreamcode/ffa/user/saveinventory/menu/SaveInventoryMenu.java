@@ -1,14 +1,15 @@
 package cc.dreamcode.ffa.user.saveinventory.menu;
 
-import cc.dreamcode.ffa.BukkitFFAPlugin;
 import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.config.PluginConfig;
 import cc.dreamcode.ffa.user.User;
 import cc.dreamcode.ffa.user.saveinventory.UserSavedInventory;
+import cc.dreamcode.ffa.user.saveinventory.util.InventoryUtil;
 import cc.dreamcode.menu.bukkit.BukkitMenuBuilder;
 import cc.dreamcode.menu.bukkit.base.BukkitMenu;
 import cc.dreamcode.utilities.builder.MapBuilder;
 import cc.dreamcode.utilities.bukkit.builder.ItemBuilder;
+import eu.okaeri.tasker.core.Tasker;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -22,10 +23,12 @@ public class SaveInventoryMenu {
     private final User user;
     private final Player player;
 
-    private final BukkitFFAPlugin plugin;
+    private final Tasker tasker;
 
     private final PluginConfig pluginConfig;
     private final MessageConfig messageConfig;
+
+    private long delay;
 
     public void open() {
         BukkitMenuBuilder menuBuilder = this.pluginConfig.saveInventoryMenu;
@@ -38,7 +41,13 @@ public class SaveInventoryMenu {
 
             menu.setItem(slot, ItemBuilder.of(item)
                     .fixColors()
-                    .toItemStack(), event -> getInventoryAction(item));
+                    .toItemStack(), event -> {
+                this.delay = System.currentTimeMillis() + 500L;
+                if (delay >= System.currentTimeMillis()) {
+                    return;
+                }
+                getInventoryAction(item);
+            });
         }
 
         menu.open(player);
@@ -50,15 +59,20 @@ public class SaveInventoryMenu {
         }
         final UserSavedInventory savedInventory = user.getSavedInventory();
         if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_DESTROYS)) {
-            savedInventory.setInventory(null);
+            savedInventory.setInventory(new ItemStack[player.getInventory().getSize()]);
             this.messageConfig.resetedInventory.send(player);
-            this.plugin.runAsync(user::save);
+            this.tasker.newSharedChain(player.getUniqueId().toString())
+                    .async(() -> user.save())
+                    .execute();
+            InventoryUtil.setupInventory(player, user, this.pluginConfig);
         } else if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS)) {
             savedInventory.setInventory(player.getInventory().getContents());
             this.messageConfig.savedInventory.send(player, new MapBuilder<String, Object>()
                     .put("items-saved", savedInventory.getInventory().length)
                     .build());
-            this.plugin.runAsync(user::save);
+            this.tasker.newSharedChain(player.getUniqueId().toString())
+                    .async(() -> user.save())
+                    .execute();
         }
     }
 

@@ -1,6 +1,9 @@
 package cc.dreamcode.ffa.config;
 
+import cc.dreamcode.ffa.deposit.DepositItem;
 import cc.dreamcode.menu.bukkit.BukkitMenuBuilder;
+import cc.dreamcode.notice.minecraft.MinecraftNoticeType;
+import cc.dreamcode.notice.minecraft.bukkit.BukkitNotice;
 import cc.dreamcode.platform.bukkit.component.configuration.Configuration;
 import cc.dreamcode.platform.persistence.StorageConfig;
 import cc.dreamcode.utilities.builder.ListBuilder;
@@ -49,6 +52,26 @@ public final class PluginConfig extends OkaeriConfig {
     public Map<EquipmentSlot, ItemStack> equipmentAfterJoin = new MapBuilder<EquipmentSlot, ItemStack>()
             .put(EquipmentSlot.CHEST, ItemBuilder.of(requireNonNull(XMaterial.DIAMOND_CHESTPLATE.parseMaterial())).toItemStack())
             .build();
+
+    @Comment({
+            "Identyfikator placeholdera użytkownika",
+            "Np teraz będzie tak: (" +
+                    "%ffa_user_name%, " +
+                    "%ffa_user_points%, " +
+                    "%ffa_user_kill-streak%, " +
+                    "%ffa_user_max-kill-streak%" +
+                    "%ffa_user_kills%, " +
+                    "%ffa_user_deaths%, " +
+                    "%ffa_user_assists%, " +
+                    ")"
+    })
+    public String userPlaceholderIdentifier = "ffa_user";
+
+    @Comment({
+            "Identyfikator placeholderu topek użytkowników",
+            "Np teraz będzie tak: (%ffa_tops_points%, %ffa_tops_kill-streak%, %ffa_tops_max-kill-streak%)"
+    })
+    public String userRankingPlaceholderIdentifier = "ffa_tops";
 
     @Comment({
             "Itemki które gracz dostaje do ekwipunku, po wejściu na serwer",
@@ -105,9 +128,13 @@ public final class PluginConfig extends OkaeriConfig {
             .build();
 
     @Comment("Itemki których nadmiar będzie zabierany")
-    public Map<Integer, Material> depositItemsMap = new MapBuilder<Integer, Material>()
-            .put(12, Material.GOLDEN_APPLE)
-            .build();
+    public List<DepositItem> depositItems = Arrays.asList(
+            new DepositItem(
+                    BukkitNotice.of(MinecraftNoticeType.CHAT, "&7Zabrano nadmiar &8(&7{amount}&8) &7refili z ekwipunku!"),
+                    12,
+                    new ItemStack(Material.GOLDEN_APPLE)
+            )
+    );
 
     @Comment("Nie usuwaj flag (HIDE_DESTROYS, HIDE_ENCHANTS) bo bez nich gui nie będzie funkcjonować!")
     public BukkitMenuBuilder saveInventoryMenu = new BukkitMenuBuilder("&6&lZapisywanie ekwipunku", 3, new MapBuilder<Integer, ItemStack>()
@@ -145,4 +172,8 @@ public final class PluginConfig extends OkaeriConfig {
             .put(25, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
             .put(26, XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())
             .build());
+
+    public BukkitNotice spawnLocationUpdated = BukkitNotice.of(MinecraftNoticeType.CHAT, "&aZaktualizowano lokalizacje spawna!");
+    public String spawnLocationPermission = "dreamffa.spawnlocation";
+
 }

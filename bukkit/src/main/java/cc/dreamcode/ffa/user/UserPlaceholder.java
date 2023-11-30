@@ -1,5 +1,6 @@
-package cc.dreamcode.ffa.user.placeholder;
+package cc.dreamcode.ffa.user;
 
+import cc.dreamcode.ffa.config.PluginConfig;
 import cc.dreamcode.ffa.user.User;
 import cc.dreamcode.ffa.user.UserCache;
 import cc.dreamcode.ffa.user.UserStatistics;
@@ -13,10 +14,11 @@ import org.bukkit.OfflinePlayer;
 public class UserPlaceholder extends PlaceholderExpansion {
 
     private final UserCache userCache;
+    private final PluginConfig pluginConfig;
 
     @Override
     public @NonNull String getIdentifier() {
-        return "ffa_user";
+        return this.pluginConfig.userPlaceholderIdentifier;
     }
 
     @Override

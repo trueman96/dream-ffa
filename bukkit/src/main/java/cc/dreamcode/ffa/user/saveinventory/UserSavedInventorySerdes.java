@@ -1,6 +1,5 @@
 package cc.dreamcode.ffa.user.saveinventory;
 
-import cc.dreamcode.ffa.user.saveinventory.UserSavedInventory;
 import eu.okaeri.configs.schema.GenericsDeclaration;
 import eu.okaeri.configs.serdes.DeserializationData;
 import eu.okaeri.configs.serdes.ObjectSerializer;

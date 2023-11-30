@@ -1,13 +1,13 @@
-package cc.dreamcode.ffa.user.controller;
+package cc.dreamcode.ffa.user;
 
 import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.config.PluginConfig;
-import cc.dreamcode.ffa.user.*;
 import cc.dreamcode.ffa.user.saveinventory.UserSavedInventory;
+import cc.dreamcode.ffa.user.saveinventory.util.InventoryUtil;
+import cc.dreamcode.ffa.user.combat.UserCombat;
 import cc.dreamcode.notice.minecraft.bukkit.BukkitNotice;
 import cc.dreamcode.utilities.RoundUtil;
 import cc.dreamcode.utilities.builder.MapBuilder;
-import cc.dreamcode.utilities.bukkit.ItemUtil;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.tasker.core.Tasker;
 import lombok.NonNull;
@@ -25,9 +25,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.projectiles.ProjectileSource;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
@@ -78,7 +76,7 @@ public final class UserController implements Listener {
                 .execute();
 
         this.tasker.newDelayer(Duration.ofSeconds(2))
-                .delayed(() -> setupInventory(player, this.userCache.get(player)))
+                .delayed(() -> InventoryUtil.setupInventory(player, this.userCache.get(player), this.pluginConfig))
                 .executeSync();
     }
 
@@ -86,7 +84,7 @@ public final class UserController implements Listener {
     public void onPlayerQuit(@NonNull PlayerQuitEvent event) {
         final Player player = event.getPlayer();
 
-        this.tasker.newSharedChain("user")
+        this.tasker.newSharedChain(player.getUniqueId().toString())
                 .async(() -> this.userCache.get(player))
                 .acceptSync(user -> {
                     if (user.getCombat().isInCombat()) {
@@ -115,42 +113,9 @@ public final class UserController implements Listener {
         this.tasker.newSharedChain("user")
                 .async(() -> this.userCache.get(player))
                 .acceptAsync(user -> {
-                    setupInventory(player, user);
+                    InventoryUtil.setupInventory(player, user, this.pluginConfig);
                 })
                 .execute();
-    }
-
-    private void setupInventory(Player player, User user) {
-        player.getInventory().clear();
-
-        final PlayerInventory inventory = player.getInventory();
-        for (Map.Entry<EquipmentSlot, ItemStack> entry : this.pluginConfig.equipmentAfterJoin.entrySet()) {
-            EquipmentSlot key = entry.getKey();
-            ItemStack value = entry.getValue();
-            switch (key) {
-                case HAND:
-                    inventory.setItemInHand(value);
-                    break;
-                case FEET:
-                    inventory.setBoots(value);
-                    break;
-                case LEGS:
-                    inventory.setLeggings(value);
-                    break;
-                case CHEST:
-                    inventory.setChestplate(value);
-                    break;
-                case HEAD:
-                    inventory.setHelmet(value);
-                    break;
-            }
-        }
-        player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
-        ItemUtil.addItems(this.pluginConfig.itemsAfterJoin, inventory);
-        final UserSavedInventory savedInventory = user.getSavedInventory();
-        if (savedInventory != null && savedInventory.getInventory() != null) {
-            player.getInventory().setContents(savedInventory.getInventory());
-        }
     }
 
     @EventHandler

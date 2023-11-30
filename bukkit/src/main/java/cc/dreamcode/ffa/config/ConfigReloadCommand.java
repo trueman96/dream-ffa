@@ -1,22 +1,19 @@
-package cc.dreamcode.ffa.user.command;
+package cc.dreamcode.ffa.config;
 
 import cc.dreamcode.command.bukkit.BukkitCommand;
-import cc.dreamcode.ffa.config.MessageConfig;
-import cc.dreamcode.ffa.config.PluginConfig;
-import cc.dreamcode.ffa.user.UserCache;
 import eu.okaeri.injector.annotation.Inject;
 import lombok.NonNull;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class ConfigurationReloadCommand extends BukkitCommand {
+public class ConfigReloadCommand extends BukkitCommand {
 
     private final PluginConfig pluginConfig;
     private final MessageConfig messageConfig;
 
     @Inject
-    public ConfigurationReloadCommand(PluginConfig pluginConfig, MessageConfig messageConfig) {
+    public ConfigReloadCommand(PluginConfig pluginConfig, MessageConfig messageConfig) {
         super("ffareload");
         this.pluginConfig = pluginConfig;
         this.messageConfig = messageConfig;

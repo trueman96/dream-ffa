@@ -1,4 +1,4 @@
-package cc.dreamcode.ffa.user;
+package cc.dreamcode.ffa.user.combat;
 
 import lombok.Data;
 import org.bukkit.entity.Player;

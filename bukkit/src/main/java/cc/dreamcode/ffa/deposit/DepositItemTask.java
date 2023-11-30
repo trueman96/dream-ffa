@@ -1,6 +1,5 @@
-package cc.dreamcode.ffa.user.task;
+package cc.dreamcode.ffa.deposit;
 
-import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.config.PluginConfig;
 import cc.dreamcode.platform.bukkit.component.scheduler.Scheduler;
 import cc.dreamcode.utilities.builder.MapBuilder;
@@ -12,8 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import java.util.Map;
-
 /**
  * UserItemsDepositTask.java
  * Purpose: The UserItemsDepositTask is a class that takes excess items from config.
@@ -23,26 +20,24 @@ import java.util.Map;
  */
 @RequiredArgsConstructor(onConstructor_= @Inject)
 @Scheduler(delay = 0L, interval = 60L)
-public class UserItemsDepositTask implements Runnable {
+public class DepositItemTask implements Runnable {
 
     private final PluginConfig pluginConfig;
-    private final MessageConfig messageConfig;
 
     @Override
     public void run() {
         for (final Player player : Bukkit.getOnlinePlayers()) {
-            for (final Map.Entry<Integer, Material> entry : this.pluginConfig.depositItemsMap.entrySet()) {
-                final int depositLimit = entry.getKey();
-                final ItemStack depositItem = new ItemStack(entry.getValue());
-                final int itemToRemove = countItemsIgnoreItemMeta(player, depositItem);
-
+            for (final DepositItem depositItem : this.pluginConfig.depositItems) {
+                final ItemStack item = depositItem.getItem();
+                final int itemToRemove = countItemsIgnoreItemMeta(player, item);
+                final int depositLimit = depositItem.getLimit();
                 if (itemToRemove > depositLimit) {
                     final int amountToRemove = itemToRemove - depositLimit;
-                    ItemStack itemStack = new ItemStack(depositItem);
+                    ItemStack itemStack = new ItemStack(item);
                     itemStack.setAmount(amountToRemove);
                     removeItemIgnoreItemMeta(player, itemStack);
 
-                    this.messageConfig.depositMessages.get(depositItem.getType())
+                    depositItem.getNotice()
                             .send(player, new MapBuilder<String, Object>()
                                     .put("amount", amountToRemove)
                                     .build());

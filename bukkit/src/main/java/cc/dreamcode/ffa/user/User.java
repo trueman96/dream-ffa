@@ -1,6 +1,7 @@
 package cc.dreamcode.ffa.user;
 
 import cc.dreamcode.ffa.user.saveinventory.UserSavedInventory;
+import cc.dreamcode.ffa.user.combat.UserCombat;
 import eu.okaeri.configs.annotation.NameModifier;
 import eu.okaeri.configs.annotation.NameStrategy;
 import eu.okaeri.configs.annotation.Names;

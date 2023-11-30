@@ -1,5 +1,7 @@
-package cc.dreamcode.ffa.user;
+package cc.dreamcode.ffa.user.ranking;
 
+import cc.dreamcode.ffa.user.User;
+import cc.dreamcode.ffa.user.UserRepository;
 import eu.okaeri.injector.annotation.Inject;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,5 @@
-package cc.dreamcode.ffa.user.task;
+package cc.dreamcode.ffa.user.ranking;
 
-import cc.dreamcode.ffa.user.UserRanking;
 import cc.dreamcode.platform.bukkit.component.scheduler.Scheduler;
 import eu.okaeri.injector.annotation.Inject;
 import lombok.RequiredArgsConstructor;

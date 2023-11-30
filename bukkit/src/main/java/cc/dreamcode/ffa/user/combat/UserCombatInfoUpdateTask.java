@@ -1,9 +1,8 @@
-package cc.dreamcode.ffa.user.task;
+package cc.dreamcode.ffa.user.combat;
 
 import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.user.User;
 import cc.dreamcode.ffa.user.UserCache;
-import cc.dreamcode.ffa.user.UserCombat;
 import cc.dreamcode.platform.bukkit.component.scheduler.Scheduler;
 import cc.dreamcode.utilities.TimeUtil;
 import cc.dreamcode.utilities.builder.MapBuilder;

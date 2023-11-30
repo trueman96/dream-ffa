@@ -6,7 +6,6 @@ import cc.dreamcode.platform.bukkit.component.configuration.Configuration;
 import cc.dreamcode.utilities.builder.MapBuilder;
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.*;
-import org.bukkit.Material;
 
 import java.util.Map;
 
@@ -25,6 +24,7 @@ import java.util.Map;
 @Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
 public final class MessageConfig extends OkaeriConfig {
 
+    public BukkitNotice usage = new BukkitNotice(MinecraftNoticeType.CHAT, "&cPoprawne uzycie: &7{usage}");
     public BukkitNotice noPermission = new BukkitNotice(MinecraftNoticeType.CHAT, "&cNie posiadasz uprawnien.");
     public BukkitNotice notPlayer = new BukkitNotice(MinecraftNoticeType.CHAT, "&cNie jestes graczem.");
 
@@ -54,13 +54,6 @@ public final class MessageConfig extends OkaeriConfig {
 
     @Comment("Symbol używany w placeholderze: combat-progress")
     public String progressSymbol = "■";
-
-    @Comment("Wiadomości o zabraniu nadmiaru danych itemków")
-    public Map<Material, BukkitNotice> depositMessages = new MapBuilder<Material, BukkitNotice>()
-            .put(Material.GOLDEN_APPLE,
-                    BukkitNotice.of(MinecraftNoticeType.CHAT,
-                            "&7Zabrano nadmiar &8(&7{amount}&8) &7refili z ekwipunku!"))
-            .build();
 
     @Comment("Dostępne placeholdery: (current_ks, maximum_ks)")
     public BukkitNotice killStreakInfo = BukkitNotice.of(MinecraftNoticeType.CHAT,

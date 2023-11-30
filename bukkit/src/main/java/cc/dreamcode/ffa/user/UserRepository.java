@@ -6,13 +6,8 @@ import lombok.NonNull;
 import org.bukkit.entity.HumanEntity;
 
 import java.util.AbstractMap.SimpleEntry;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-
-import static java.util.Objects.nonNull;
 
 /**
  * This interface defines the operations for managing User data in a data repository.

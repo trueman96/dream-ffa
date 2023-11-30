@@ -1,4 +1,4 @@
-package cc.dreamcode.ffa.user.command;
+package cc.dreamcode.ffa.command;
 
 import cc.dreamcode.command.bukkit.BukkitCommand;
 import cc.dreamcode.ffa.config.MessageConfig;
@@ -9,7 +9,6 @@ import cc.dreamcode.utilities.builder.MapBuilder;
 import eu.okaeri.injector.annotation.Inject;
 import lombok.NonNull;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class KillStreakCommand extends BukkitCommand {
 
     @Inject
     public KillStreakCommand(UserCache userCache, MessageConfig messageConfig) {
-        super("killstreak");
+        super("killstreak", "ks");
         this.userCache = userCache;
         this.messageConfig = messageConfig;
     }

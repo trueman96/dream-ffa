@@ -4,19 +4,21 @@ import cc.dreamcode.command.bukkit.BukkitCommandProvider;
 import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.config.PluginConfig;
 import cc.dreamcode.ffa.user.UserCache;
-import cc.dreamcode.ffa.user.UserRanking;
+import cc.dreamcode.ffa.user.ranking.UserRanking;
 import cc.dreamcode.ffa.user.UserRepository;
 import cc.dreamcode.ffa.user.UserStatisticsSerdes;
-import cc.dreamcode.ffa.user.command.ConfigurationReloadCommand;
-import cc.dreamcode.ffa.user.command.KillStreakCommand;
-import cc.dreamcode.ffa.user.controller.UserController;
-import cc.dreamcode.ffa.user.placeholder.UserPlaceholder;
-import cc.dreamcode.ffa.user.placeholder.UserRankingPlaceholder;
+import cc.dreamcode.ffa.config.ConfigReloadCommand;
+import cc.dreamcode.ffa.command.KillStreakCommand;
+import cc.dreamcode.ffa.command.SetSpawnCommand;
+import cc.dreamcode.ffa.user.UserController;
+import cc.dreamcode.ffa.deposit.DepositItemTask;
+import cc.dreamcode.ffa.user.UserPlaceholder;
+import cc.dreamcode.ffa.user.ranking.UserRankingCommand;
+import cc.dreamcode.ffa.user.ranking.UserRankingPlaceholder;
+import cc.dreamcode.ffa.user.ranking.UserRankingSortTask;
 import cc.dreamcode.ffa.user.saveinventory.UserSavedInventorySerdes;
 import cc.dreamcode.ffa.user.saveinventory.command.SaveInventoryCommand;
-import cc.dreamcode.ffa.user.task.UserCombatInfoUpdateTask;
-import cc.dreamcode.ffa.user.task.UserItemsDepositTask;
-import cc.dreamcode.ffa.user.task.UserRankingSortTask;
+import cc.dreamcode.ffa.user.combat.UserCombatInfoUpdateTask;
 import cc.dreamcode.menu.bukkit.BukkitMenuProvider;
 import cc.dreamcode.menu.bukkit.okaeri.MenuBuilderSerdes;
 import cc.dreamcode.notice.minecraft.bukkit.serdes.BukkitNoticeSerdes;
@@ -84,18 +86,21 @@ public final class BukkitFFAPlugin extends DreamBukkitPlatform implements DreamB
             componentManager.registerComponent(UserRanking.class);
 
             componentManager.registerComponent(UserCombatInfoUpdateTask.class);
-            componentManager.registerComponent(UserItemsDepositTask.class);
+            componentManager.registerComponent(DepositItemTask.class);
             componentManager.registerComponent(UserRankingSortTask.class);
 
             componentManager.registerComponent(KillStreakCommand.class);
             componentManager.registerComponent(SaveInventoryCommand.class);
-            componentManager.registerComponent(ConfigurationReloadCommand.class);
+            componentManager.registerComponent(SetSpawnCommand.class);
+            componentManager.registerComponent(ConfigReloadCommand.class);
+            componentManager.registerComponent(UserRankingCommand.class);
         });
 
         Optional.ofNullable(this.getServer().getPluginManager().getPlugin("PlaceholderAPI"))
                 .ifPresent(plugin -> {
                     componentManager.registerComponent(UserPlaceholder.class, PlaceholderExpansion::register);
                     componentManager.registerComponent(UserRankingPlaceholder.class, PlaceholderExpansion::register);
+                    this.getDreamLogger().debug("Registered PlaceholderAPI expansions.");
                 });
     }
 

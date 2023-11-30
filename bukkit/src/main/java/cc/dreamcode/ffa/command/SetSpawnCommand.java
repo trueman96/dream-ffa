@@ -1,11 +1,8 @@
-package cc.dreamcode.ffa.user.saveinventory.command;
+package cc.dreamcode.ffa.command;
 
 import cc.dreamcode.command.bukkit.BukkitCommand;
 import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.config.PluginConfig;
-import cc.dreamcode.ffa.user.User;
-import cc.dreamcode.ffa.user.UserCache;
-import cc.dreamcode.ffa.user.saveinventory.menu.SaveInventoryMenu;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.tasker.core.Tasker;
 import lombok.NonNull;
@@ -14,9 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class SaveInventoryCommand extends BukkitCommand {
-
-    private final UserCache userCache;
+public class SetSpawnCommand extends BukkitCommand {
 
     private final Tasker tasker;
 
@@ -24,9 +19,8 @@ public class SaveInventoryCommand extends BukkitCommand {
     private final MessageConfig messageConfig;
 
     @Inject
-    public SaveInventoryCommand(UserCache userCache, Tasker tasker, PluginConfig pluginConfig, MessageConfig messageConfig) {
-        super("saveeq", "zapiszeq");
-        this.userCache = userCache;
+    public SetSpawnCommand(Tasker tasker, PluginConfig pluginConfig, MessageConfig messageConfig) {
+        super("setspawn");
         this.tasker = tasker;
         this.pluginConfig = pluginConfig;
         this.messageConfig = messageConfig;
@@ -37,9 +31,17 @@ public class SaveInventoryCommand extends BukkitCommand {
         if (!(sender instanceof Player)) {
             return;
         }
-        Player player = (Player) sender;
-        final User user = this.userCache.get(player);
-        new SaveInventoryMenu(user, player, this.tasker, this.pluginConfig, this.messageConfig).open();
+        if (!sender.hasPermission(this.pluginConfig.spawnLocationPermission)) {
+            this.messageConfig.noPermission.send(sender);
+            return;
+        }
+
+        final Player player = (Player) sender;
+        this.pluginConfig.spawnLocation = player.getLocation();
+        this.tasker.newSharedChain("config-sync")
+                .async(() -> this.pluginConfig.save())
+                .execute();
+        this.pluginConfig.spawnLocationUpdated.send(player);
     }
 
     @Override
