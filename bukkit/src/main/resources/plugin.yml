@@ -1,5 +1,5 @@
 main: "cc.dreamcode.ffa.BukkitFFAPlugin"
-version: "1.0-InDEV"
+version: "1.0-beta.1"
 name: "Dream-FFA"
 description: "Dream-FFA plugin written by dreamcode.cc"
 website: "https://dreamcode.cc"

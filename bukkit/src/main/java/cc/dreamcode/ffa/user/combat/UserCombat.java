@@ -9,7 +9,7 @@ import java.util.UUID;
  * UserCombat.java
  * Purpose: The UserCombat is a class that contains User combat-related stuff.
  * @author vkie
- * @version 1.0-inDev
+ * @version 1.0-beta.1
  * @since 2023-11-24
  */
 @Data

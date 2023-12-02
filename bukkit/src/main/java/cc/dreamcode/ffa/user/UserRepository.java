@@ -13,7 +13,7 @@ import java.util.UUID;
  * This interface defines the operations for managing User data in a data repository.
  * It uses a DocumentRepository provided by Okaeri's Persistence to handle the actual storage.
  * @author vkie
- * @version 1.0-inDev
+ * @version 1.0-beta.1
  * @since 2023-11-24
  */
 @DocumentCollection(path = "user", keyLength = 36)
@@ -43,16 +43,6 @@ public interface UserRepository extends DocumentRepository<UUID, User> {
      */
     default SimpleEntry<Boolean, User> findOrCreateByUUID(@NonNull UUID uuid) {
         return this.findOrCreate(uuid, null);
-    }
-
-    /**
-     * Finds a User by a HumanEntity. If no User is found, a new User with the given UUID and username is created and stored.
-     *
-     * @param humanEntity  The HumanEntity representing the User.
-     * @return             Entry with boolean if user was found or created and the User.
-     */
-    default SimpleEntry<Boolean, User> findOrCreateByHumanEntity(@NonNull HumanEntity humanEntity) {
-        return this.findOrCreate(humanEntity.getUniqueId(), humanEntity.getName());
     }
 
     /**

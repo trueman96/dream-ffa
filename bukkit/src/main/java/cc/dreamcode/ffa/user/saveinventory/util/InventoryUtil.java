@@ -14,6 +14,7 @@ import java.util.Map;
 public class InventoryUtil {
 
     public static void setupInventory(Player player, User user, PluginConfig pluginConfig) {
+        System.out.println("setupInventory");
         player.getInventory().clear();
 
         final PlayerInventory inventory = player.getInventory();

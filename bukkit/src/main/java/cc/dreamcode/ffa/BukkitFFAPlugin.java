@@ -110,7 +110,7 @@ public final class BukkitFFAPlugin extends DreamBukkitPlatform implements DreamB
 
     @Override
     public @NonNull DreamVersion getDreamVersion() {
-        return DreamVersion.create("dream-ffa", "1.0-InDEV", "vkie");
+        return DreamVersion.create("dream-ffa", "1.0-beta.1", "vkie");
     }
 
     @Override

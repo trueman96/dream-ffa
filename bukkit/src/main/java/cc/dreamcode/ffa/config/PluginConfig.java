@@ -31,7 +31,7 @@ import static java.util.Objects.requireNonNull;
  * PluginConfig.java
  * Purpose: The PluginConfig is a class utilised by other classes to access plugin-related to things.
  * @author vkie
- * @version 1.0-inDev
+ * @version 1.0-beta.1
  * @since 2023-11-24
  */
 @Configuration(child = "config.yml")

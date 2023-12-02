@@ -11,8 +11,16 @@ public class UserRankingUtil {
 
     public static String requestTops(final String parameter, final UserRanking userRanking, final MessageConfig messageConfig) {
         if (parameter.startsWith("points")) {
-            final int position = ParseUtil.parseInteger(parameter.replace("points", "").replace("-", "")).orElse(0);
-            final User user = userRanking.getPointsRanking().get(position);
+            int position = ParseUtil.parseInteger(parameter.replace("points", "").replace("-", "")).orElse(0);
+            if (position > 0) {
+                position--;
+            }
+            User user;
+            if ((userRanking.getPointsRanking().size()-1) >= position) {
+                user = userRanking.getPointsRanking().get(position);
+            } else {
+                user = null;
+            }
             if (user != null) {
                 return ChatUtil.fixColor(PlaceholderContext.of(CompiledMessage.of(messageConfig.pointsRankingFormat))
                         .with("user-name", user.getName())
@@ -21,8 +29,16 @@ public class UserRankingUtil {
             }
             return ChatUtil.fixColor(messageConfig.pointsRankingNotFound);
         } else if (parameter.startsWith("kill-streak")) {
-            final int position = ParseUtil.parseInteger(parameter.replace("kill-streak", "").replace("-", "")).orElse(0);
-            final User user = userRanking.getKillStreakRanking().get(position);
+            int position = ParseUtil.parseInteger(parameter.replace("kill-streak", "").replace("-", "")).orElse(0);
+            if (position > 0) {
+                position--;
+            }
+            User user;
+            if ((userRanking.getKillStreakRanking().size()-1) >= position) {
+                user = userRanking.getKillStreakRanking().get(position);
+            } else {
+                user = null;
+            }
             if (user != null) {
                 return ChatUtil.fixColor(PlaceholderContext.of(CompiledMessage.of(messageConfig.killStreakRankingFormat))
                         .with("user-name", user.getName())
@@ -31,8 +47,16 @@ public class UserRankingUtil {
             }
             return ChatUtil.fixColor(messageConfig.killStreakRankingNotFound);
         } else if (parameter.startsWith("max-kill-streak")) {
-            final int position = ParseUtil.parseInteger(parameter.replace("max-kill-streak", "").replace("-", "")).orElse(0);
-            final User user = userRanking.getKillStreakRanking().get(position);
+            int position = ParseUtil.parseInteger(parameter.replace("max-kill-streak", "").replace("-", "")).orElse(0);
+            if (position > 0) {
+                position--;
+            }
+            User user;
+            if ((userRanking.getMaxKillStreakRanking().size()-1) >= position) {
+                user = userRanking.getMaxKillStreakRanking().get(position);
+            } else {
+                user = null;
+            }
             if (user != null) {
                 return ChatUtil.fixColor(PlaceholderContext.of(CompiledMessage.of(messageConfig.maxKillStreakRankingFormat))
                         .with("user-name", user.getName())

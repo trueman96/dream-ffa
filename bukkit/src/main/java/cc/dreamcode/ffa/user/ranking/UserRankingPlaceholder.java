@@ -27,7 +27,7 @@ public class UserRankingPlaceholder extends PlaceholderExpansion {
 
     @Override
     public @NonNull String getVersion() {
-        return "1.0-inDev";
+        return "1.0-beta.1";
     }
 
     @Override

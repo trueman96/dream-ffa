@@ -21,19 +21,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 import java.time.Duration;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 import static java.util.Objects.nonNull;
 
@@ -41,7 +35,7 @@ import static java.util.Objects.nonNull;
  * UserController.java
  * Purpose: The UserController is a class that manages the User-related functionality in the game.
  * @author vkie
- * @version 1.0-inDev
+ * @version 1.0-beta.1
  * @since 2023-11-24
  */
 @RequiredArgsConstructor(onConstructor_= @Inject)
@@ -55,14 +49,14 @@ public final class UserController implements Listener {
     private final UserRepository userRepository;
 
     @EventHandler
-    public void onPlayerJoin(@NonNull PlayerJoinEvent event) {
-        final Player player = event.getPlayer();
+    public void onPlayerJoin(@NonNull AsyncPlayerPreLoginEvent event) {
+        final UUID uniqueId = event.getUniqueId();
+        final String name = event.getName();
 
-        this.tasker.newSharedChain("user")
-                .async(() -> this.userRepository.findOrCreateByHumanEntity(player))
+        this.tasker.newSharedChain(uniqueId.toString())
+                .async(() -> this.userRepository.findOrCreate(uniqueId, name))
                 .acceptAsync(userSimpleEntry -> {
                     final User user = userSimpleEntry.getValue();
-                    user.setName(player.getName());
                     if (!userSimpleEntry.getKey()) {
                         user.setStatistics(new UserStatistics());
                         user.getStatistics().setPoints(this.pluginConfig.initialValueOfPoints);
@@ -74,10 +68,6 @@ public final class UserController implements Listener {
                     this.userCache.add(user);
                 })
                 .execute();
-
-        this.tasker.newDelayer(Duration.ofSeconds(2))
-                .delayed(() -> InventoryUtil.setupInventory(player, this.userCache.get(player), this.pluginConfig))
-                .executeSync();
     }
 
     @EventHandler
@@ -103,19 +93,20 @@ public final class UserController implements Listener {
 
     @EventHandler
     public void onPlayerSpawnLocation(@NonNull PlayerSpawnLocationEvent event) {
+        final Player player = event.getPlayer();
         event.setSpawnLocation(this.pluginConfig.spawnLocation);
+        this.tasker.newDelayer(Duration.ofSeconds(2))
+                .delayed(() -> InventoryUtil.setupInventory(player, this.userCache.get(player), this.pluginConfig))
+                .executeSync();
     }
 
     @EventHandler
     public void onPlayerRespawn(@NonNull PlayerRespawnEvent event) {
         final Player player = event.getPlayer();
-
-        this.tasker.newSharedChain("user")
-                .async(() -> this.userCache.get(player))
-                .acceptAsync(user -> {
-                    InventoryUtil.setupInventory(player, user, this.pluginConfig);
-                })
-                .execute();
+        event.setRespawnLocation(this.pluginConfig.spawnLocation);
+        this.tasker.newDelayer(Duration.ofSeconds(2))
+                .delayed(() -> InventoryUtil.setupInventory(player, this.userCache.get(player), this.pluginConfig))
+                .executeSync();
     }
 
     @EventHandler
@@ -123,7 +114,7 @@ public final class UserController implements Listener {
         event.setDeathMessage(null);
 
         final Player victim = event.getEntity();
-        this.tasker.newSharedChain("user")
+        this.tasker.newSharedChain(event.getEventName())
                 .async(() -> {
                     final User victimUser = this.userCache.get(victim);
                     final UserStatistics victimStatistics = victimUser.getStatistics();

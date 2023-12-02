@@ -28,8 +28,6 @@ public class SaveInventoryMenu {
     private final PluginConfig pluginConfig;
     private final MessageConfig messageConfig;
 
-    private long delay;
-
     public void open() {
         BukkitMenuBuilder menuBuilder = this.pluginConfig.saveInventoryMenu;
         BukkitMenu menu = menuBuilder.buildEmpty();
@@ -42,38 +40,32 @@ public class SaveInventoryMenu {
             menu.setItem(slot, ItemBuilder.of(item)
                     .fixColors()
                     .toItemStack(), event -> {
-                this.delay = System.currentTimeMillis() + 500L;
-                if (delay >= System.currentTimeMillis()) {
+                System.out.println("click");
+                if (!item.hasItemMeta()) {
                     return;
                 }
-                getInventoryAction(item);
+                System.out.println("click-pass");
+                final UserSavedInventory savedInventory = user.getSavedInventory();
+                if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_DESTROYS)) {
+                    savedInventory.setInventory(null);
+                    this.messageConfig.resetedInventory.send(player);
+                    this.tasker.newSharedChain(player.getUniqueId().toString())
+                            .async(() -> user.save())
+                            .execute();
+                    InventoryUtil.setupInventory(player, user, this.pluginConfig);
+                } else if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS)) {
+                    savedInventory.setInventory(player.getInventory().getContents());
+                    this.messageConfig.savedInventory.send(player, new MapBuilder<String, Object>()
+                            .put("items-saved", savedInventory.getInventory().length)
+                            .build());
+                    this.tasker.newSharedChain(player.getUniqueId().toString())
+                            .async(() -> user.save())
+                            .execute();
+                }
             });
         }
 
         menu.open(player);
-    }
-
-    void getInventoryAction(ItemStack item) {
-        if (!item.hasItemMeta()) {
-            return;
-        }
-        final UserSavedInventory savedInventory = user.getSavedInventory();
-        if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_DESTROYS)) {
-            savedInventory.setInventory(new ItemStack[player.getInventory().getSize()]);
-            this.messageConfig.resetedInventory.send(player);
-            this.tasker.newSharedChain(player.getUniqueId().toString())
-                    .async(() -> user.save())
-                    .execute();
-            InventoryUtil.setupInventory(player, user, this.pluginConfig);
-        } else if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS)) {
-            savedInventory.setInventory(player.getInventory().getContents());
-            this.messageConfig.savedInventory.send(player, new MapBuilder<String, Object>()
-                    .put("items-saved", savedInventory.getInventory().length)
-                    .build());
-            this.tasker.newSharedChain(player.getUniqueId().toString())
-                    .async(() -> user.save())
-                    .execute();
-        }
     }
 
 }

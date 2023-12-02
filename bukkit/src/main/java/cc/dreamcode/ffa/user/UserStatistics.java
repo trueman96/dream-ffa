@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  * UserStatistics.java
  * Purpose: The UserStatistics is a class that contains User statistics as points etc.
  * @author vkie
- * @version 1.0-inDev
+ * @version 1.0-beta.1
  * @since 2023-11-24
  */
 @Data

@@ -13,7 +13,7 @@ import java.util.Map;
  * MessageConfig.java
  * Purpose: The MessageConfig class is utilised by other classes to access messages sent to users.
  * @author vkie
- * @version 1.0-inDev
+ * @version 1.0-beta.1
  * @since 2023-11-24
  */
 @Configuration(child = "message.yml")

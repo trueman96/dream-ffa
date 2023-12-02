@@ -26,7 +26,7 @@ public class UserRankingCommand extends BukkitCommand {
 
     @Override
     public void content(@NonNull CommandSender sender, @NonNull String[] args) {
-        if (args.length != 2) {
+        if (args.length != 1) {
             this.messageConfig.usage.send(sender, new MapBuilder<String, Object>()
                     .put("usage", "/ranking <points|kill-streak|max-kill-streak>-<place>")
                     .build());
