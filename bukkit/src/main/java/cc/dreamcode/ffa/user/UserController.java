@@ -112,7 +112,12 @@ public final class UserController implements Listener {
         event.setDeathMessage(null);
 
         final Player victim = event.getEntity();
-        this.tasker.newSharedChain(event.getEventName())
+        this.tasker.newSharedChain(victim.getUniqueId().toString())
+                .sync(() -> {
+                    if (this.pluginConfig.autoRespawn) {
+                        victim.spigot().respawn();
+                    }
+                })
                 .async(() -> {
                     final User victimUser = this.userCache.get(victim);
                     final UserStatistics victimStatistics = victimUser.getStatistics();
@@ -251,11 +256,6 @@ public final class UserController implements Listener {
 
                     killerStatistics.addKill();
                     killerUser.save();
-                })
-                .sync(() -> {
-                    if (this.pluginConfig.autoRespawn) {
-                        victim.spigot().respawn();
-                    }
                 })
                 .execute();
     }
