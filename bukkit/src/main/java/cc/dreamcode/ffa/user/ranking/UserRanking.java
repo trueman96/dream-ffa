@@ -34,8 +34,9 @@ public class UserRanking {
      * @return List of 20 users with the highest points
      */
     private List<User> topPoints() {
-        return this.userRepository.streamAll()
-                .sorted(Comparator.comparing(user -> user.getStatistics().getPoints()))
+        final List<User> users = new ArrayList<>(this.userRepository.findAll());
+        users.sort((o1, o2) -> Integer.compare(o2.getStatistics().getPoints(), o1.getStatistics().getPoints()));
+        return users.stream()
                 .limit(20)
                 .collect(Collectors.toList());
     }
@@ -48,8 +49,9 @@ public class UserRanking {
      * @return List of 20 users with the highest kill streak
      */
     private List<User> topKillStreak() {
-        return this.userRepository.streamAll()
-                .sorted(Comparator.comparing(user -> user.getStatistics().getKillStreak()))
+        final List<User> users = new ArrayList<>(this.userRepository.findAll());
+        users.sort((o1, o2) -> Integer.compare(o2.getStatistics().getKillStreak(), o1.getStatistics().getKillStreak()));
+        return users.stream()
                 .limit(20)
                 .collect(Collectors.toList());
     }
@@ -62,8 +64,9 @@ public class UserRanking {
      * @return List of 20 users with the highest maximum kill streak
      */
     private List<User> topMaxKillStreak() {
-        return this.userRepository.streamAll()
-                .sorted(Comparator.comparing(user -> user.getStatistics().getMaxKillStreak()))
+        final List<User> users = new ArrayList<>(this.userRepository.findAll());
+        users.sort((o1, o2) -> Integer.compare(o2.getStatistics().getMaxKillStreak(), o1.getStatistics().getMaxKillStreak()));
+        return users.stream()
                 .limit(20)
                 .collect(Collectors.toList());
     }

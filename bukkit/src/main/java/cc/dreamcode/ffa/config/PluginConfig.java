@@ -56,22 +56,22 @@ public final class PluginConfig extends OkaeriConfig {
     @Comment({
             "Identyfikator placeholdera użytkownika",
             "Np teraz będzie tak: (" +
-                    "%ffa_user_name%, " +
-                    "%ffa_user_points%, " +
-                    "%ffa_user_kill-streak%, " +
-                    "%ffa_user_max-kill-streak%" +
-                    "%ffa_user_kills%, " +
-                    "%ffa_user_deaths%, " +
-                    "%ffa_user_assists%, " +
+                    "%ffa-user_name%, " +
+                    "%ffa-user_points%, " +
+                    "%ffa-user_kill-streak%, " +
+                    "%ffa-user_max-kill-streak%" +
+                    "%ffa-user_kills%, " +
+                    "%ffa-user_deaths%, " +
+                    "%ffa-user_assists%, " +
                     ")"
     })
-    public String userPlaceholderIdentifier = "ffa_user";
+    public String userPlaceholderIdentifier = "ffa-user";
 
     @Comment({
             "Identyfikator placeholderu topek użytkowników",
-            "Np teraz będzie tak: (%ffa_tops_points%, %ffa_tops_kill-streak%, %ffa_tops_max-kill-streak%)"
+            "Np teraz będzie tak: (%ffa-tops_points%, %ffa-tops_kill-streak%, %ffa-tops_max-kill-streak%)"
     })
-    public String userRankingPlaceholderIdentifier = "ffa_tops";
+    public String userRankingPlaceholderIdentifier = "ffa-tops";
 
     @Comment({
             "Itemki które gracz dostaje do ekwipunku, po wejściu na serwer",

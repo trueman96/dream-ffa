@@ -16,7 +16,7 @@ public class UserRankingUtil {
                 position--;
             }
             User user;
-            if ((userRanking.getPointsRanking().size()-1) >= position) {
+            if ((userRanking.getPointsRanking().size() - 1) >= position) {
                 user = userRanking.getPointsRanking().get(position);
             } else {
                 user = null;
@@ -34,7 +34,7 @@ public class UserRankingUtil {
                 position--;
             }
             User user;
-            if ((userRanking.getKillStreakRanking().size()-1) >= position) {
+            if ((userRanking.getKillStreakRanking().size() - 1) >= position) {
                 user = userRanking.getKillStreakRanking().get(position);
             } else {
                 user = null;
@@ -52,7 +52,7 @@ public class UserRankingUtil {
                 position--;
             }
             User user;
-            if ((userRanking.getMaxKillStreakRanking().size()-1) >= position) {
+            if ((userRanking.getMaxKillStreakRanking().size() - 1) >= position) {
                 user = userRanking.getMaxKillStreakRanking().get(position);
             } else {
                 user = null;
