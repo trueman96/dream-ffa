@@ -1,11 +1,13 @@
 package cc.dreamcode.ffa.config;
 
+import cc.dreamcode.notice.minecraft.MinecraftNotice;
 import cc.dreamcode.notice.minecraft.MinecraftNoticeType;
 import cc.dreamcode.notice.minecraft.bukkit.BukkitNotice;
 import cc.dreamcode.platform.bukkit.component.configuration.Configuration;
 import cc.dreamcode.utilities.builder.MapBuilder;
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.*;
+import org.bukkit.entity.Player;
 
 import java.util.Map;
 
@@ -37,7 +39,13 @@ public final class MessageConfig extends OkaeriConfig {
     @Comment("Dostępne placeholdery: (points-to-add, points-to-remove, victim, killer, killer-health)")
     public BukkitNotice playerKillTitleKiller = new BukkitNotice(MinecraftNoticeType.TITLE_SUBTITLE,
             "&aZabójstwo!", "&cZabiłeś gracza {victim} &8(&7+{points-to-add}, &c{killer-health}❤&8)");
+    @Comment("Dostępne placeholdery: (points-to-add, points-to-remove, victim, killer, killer-health)")
+    public BukkitNotice playerKillTitleKilled = BukkitNotice.of(MinecraftNoticeType.TITLE_SUBTITLE,
+            "&cZginąłeś!", "&cZostałeś zabity przez gracza {killer} &8(&7-{points-to-remove}, &c{killer-health}❤&8)");
 
+    @Comment("Dostępne placeholdery: (points-to-remove, victim)")
+    public BukkitNotice playerKillTitleSuicide = BukkitNotice.of(MinecraftNoticeType.TITLE_SUBTITLE,
+            "&cZginąłeś!", "&cPopełniłeś samobójstwo &8(&7-{points-to-remove}&8)");
     @Comment("Dostępne placeholdery: (points-to-add, points-to-remove, victim, killer, killer-health, points-to-add-assistant)")
     public BukkitNotice playerAssistTitleAssistant = BukkitNotice.of(MinecraftNoticeType.TITLE_SUBTITLE,
             "&aAsysta!", "&cAsystowałeś przy zabiciu {victim} &8(&7+{points-to-add-assistant}, &c{assistant-health}❤&8)");
@@ -61,7 +69,7 @@ public final class MessageConfig extends OkaeriConfig {
             "&8» &7Maksymalny KS: &f{maximum_ks}"
     );
 
-    @Comment("Dostępne placeholdery: (current_ks, maximum_ks)")
+    @Comment("Dostępne placeholdery: (killer, current_ks, maximum_ks)")
     public Map<Integer, BukkitNotice> killStreakAnnounce = new MapBuilder<Integer, BukkitNotice>()
             .put(1, BukkitNotice.of(MinecraftNoticeType.CHAT, "&cGracz {killer} osiągnął killstreak {current_ks}"))
             .put(10, BukkitNotice.of(MinecraftNoticeType.CHAT, "&cGracz {killer} osiągnął killstreak {current_ks}"))

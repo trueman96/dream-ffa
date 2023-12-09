@@ -40,11 +40,9 @@ public class SaveInventoryMenu {
             menu.setItem(slot, ItemBuilder.of(item)
                     .fixColors()
                     .toItemStack(), event -> {
-                System.out.println("click");
                 if (!item.hasItemMeta()) {
                     return;
                 }
-                System.out.println("click-pass");
                 final UserSavedInventory savedInventory = user.getSavedInventory();
                 if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_DESTROYS)) {
                     savedInventory.setInventory(null);

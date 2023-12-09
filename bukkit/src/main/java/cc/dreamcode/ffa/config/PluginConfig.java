@@ -176,4 +176,8 @@ public final class PluginConfig extends OkaeriConfig {
     public BukkitNotice spawnLocationUpdated = BukkitNotice.of(MinecraftNoticeType.CHAT, "&aZaktualizowano lokalizacje spawna!");
     public String spawnLocationPermission = "dreamffa.spawnlocation";
 
+    @Comment("Czy gracze mają być respawnowani automatycznie po śmierci?")
+    public boolean autoRespawn = true;
+    @Comment("Czy gracz który zginął ma mieć wyświetlany title z informacjami kto zabił?")
+    public boolean killedTitle = true;
 }
