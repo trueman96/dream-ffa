@@ -49,12 +49,11 @@ public final class UserController implements Listener {
     private final UserRepository userRepository;
 
     @EventHandler
-    public void onPlayerJoin(@NonNull AsyncPlayerPreLoginEvent event) {
-        final UUID uniqueId = event.getUniqueId();
-        final String name = event.getName();
+    public void onPlayerJoin(@NonNull PlayerJoinEvent event) {
+        final Player player = event.getPlayer();
 
-        this.tasker.newSharedChain(uniqueId.toString())
-                .async(() -> this.userRepository.findOrCreate(uniqueId, name))
+        this.tasker.newSharedChain(player.getUniqueId().toString())
+                .async(() -> this.userRepository.findOrCreate(player.getUniqueId(), player.getName()))
                 .acceptAsync(userSimpleEntry -> {
                     final User user = userSimpleEntry.getValue();
                     if (!userSimpleEntry.getKey()) {
@@ -66,6 +65,9 @@ public final class UserController implements Listener {
                     user.save();
 
                     this.userCache.add(user);
+                })
+                .acceptSync(user -> {
+                      InventoryUtil.setupInventory(player, user.getValue(), this.pluginConfig);
                 })
                 .execute();
     }
@@ -93,11 +95,7 @@ public final class UserController implements Listener {
 
     @EventHandler
     public void onPlayerSpawnLocation(@NonNull PlayerSpawnLocationEvent event) {
-        final Player player = event.getPlayer();
         event.setSpawnLocation(this.pluginConfig.spawnLocation);
-        this.tasker.newDelayer(Duration.ofSeconds(2))
-                .delayed(() -> InventoryUtil.setupInventory(player, this.userCache.get(player), this.pluginConfig))
-                .executeSync();
     }
 
     @EventHandler
@@ -134,6 +132,14 @@ public final class UserController implements Listener {
                         victimCombat.reset();
                         victimUser.save();
 
+                        if (this.pluginConfig.killedTitle) {
+                            this.messageConfig.playerKillTitleSuicide
+                                    .send(victim, new MapBuilder<String, Object>()
+                                            .put("points-to-remove", pointsToRemove)
+                                            .put("victim", victim.getName())
+                                            .build());
+                        }
+
                         this.messageConfig.playerSuicideAnnounce
                                 .sendAll(new MapBuilder<String, Object>()
                                         .put("victim", victim.getName())
@@ -168,6 +174,17 @@ public final class UserController implements Listener {
                     if (this.pluginConfig.killTitle) {
                         this.messageConfig.playerKillTitleKiller
                                 .send(killer, new MapBuilder<String, Object>()
+                                        .put("points-to-add", pointsToAdd)
+                                        .put("points-to-remove", pointsToRemove)
+                                        .put("victim", victim.getName())
+                                        .put("killer", killer.getName())
+                                        .put("killer-health", killerHealth)
+                                        .build());
+                    }
+
+                    if (this.pluginConfig.killedTitle) {
+                        this.messageConfig.playerKillTitleKilled
+                                .send(victim, new MapBuilder<String, Object>()
                                         .put("points-to-add", pointsToAdd)
                                         .put("points-to-remove", pointsToRemove)
                                         .put("victim", victim.getName())
@@ -234,6 +251,11 @@ public final class UserController implements Listener {
 
                     killerStatistics.addKill();
                     killerUser.save();
+                })
+                .sync(() -> {
+                    if (this.pluginConfig.autoRespawn) {
+                        victim.spigot().respawn();
+                    }
                 })
                 .execute();
     }
