@@ -46,42 +46,44 @@ public class DepositItemTask implements Runnable {
         }
     }
 
-    public static void removeItemIgnoreItemMeta(Player player, ItemStack item) {
+    public static void removeItemIgnoreItemMeta(final Player player, final ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return;
         }
 
         int amountLeft = item.getAmount();
-        ItemStack[] contents = player.getInventory().getContents();
+        final ItemStack[] contents = player.getInventory().getContents();
         for (int i = 0; i < contents.length; i++) {
-            ItemStack itemStack = contents[i];
-            if (itemStack != null && itemStack.getType() == item.getType()) {
-                if (amountLeft >= itemStack.getAmount()) {
-                    amountLeft -= itemStack.getAmount();
+            final ItemStack itemStack = contents[i];
+            if (itemStack == null || itemStack.getType() != item.getType() || itemStack.getDurability() != item.getDurability()) {
+                continue;
+            }
 
-                    player.getInventory().setItem(i, new ItemStack(Material.AIR));
-                } else {
-                    itemStack.setAmount(itemStack.getAmount() - amountLeft);
-                }
+            if (amountLeft >= itemStack.getAmount()) {
+                amountLeft -= itemStack.getAmount();
 
-                if (amountLeft == 0) {
-                    return;
-                }
+                player.getInventory().setItem(i, new ItemStack(Material.AIR));
+            } else {
+                itemStack.setAmount(itemStack.getAmount() - amountLeft);
+            }
+
+            if (amountLeft == 0) {
+                return;
             }
         }
     }
 
-    public static int countItemsIgnoreItemMeta(Player player, ItemStack item) {
+    public static int countItemsIgnoreItemMeta(final Player player, final ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return 0;
         }
 
-        PlayerInventory inventory = player.getInventory();
+        final PlayerInventory inventory = player.getInventory();
         int count = 0;
         for (int i = 0; i < inventory.getSize(); i++) {
             ItemStack itemStack = inventory.getItem(i);
 
-            if (itemStack == null || item.getType() != itemStack.getType()) {
+            if (itemStack == null || item.getType() != itemStack.getType() || itemStack.getDurability() != item.getDurability()) {
                 continue;
             }
 
