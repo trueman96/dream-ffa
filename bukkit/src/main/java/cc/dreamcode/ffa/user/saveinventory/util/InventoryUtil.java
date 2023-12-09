@@ -14,12 +14,12 @@ import java.util.Map;
 public class InventoryUtil {
 
     public static void setupInventory(Player player, User user, PluginConfig pluginConfig) {
-        player.getInventory().clear();
-
         final PlayerInventory inventory = player.getInventory();
+        inventory.clear();
+        inventory.setArmorContents(null);
         for (Map.Entry<EquipmentSlot, ItemStack> entry : pluginConfig.equipmentAfterJoin.entrySet()) {
-            EquipmentSlot key = entry.getKey();
-            ItemStack value = entry.getValue();
+            final EquipmentSlot key = entry.getKey();
+            final ItemStack value = entry.getValue();
             switch (key) {
                 case HAND:
                     inventory.setItemInHand(value);
