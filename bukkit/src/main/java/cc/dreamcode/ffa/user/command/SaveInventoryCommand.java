@@ -1,11 +1,11 @@
-package cc.dreamcode.ffa.user.saveinventory.command;
+package cc.dreamcode.ffa.user.command;
 
 import cc.dreamcode.command.bukkit.BukkitCommand;
 import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.config.PluginConfig;
 import cc.dreamcode.ffa.user.User;
 import cc.dreamcode.ffa.user.UserCache;
-import cc.dreamcode.ffa.user.saveinventory.menu.SaveInventoryMenu;
+import cc.dreamcode.ffa.user.menu.SaveInventoryMenu;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.tasker.core.Tasker;
 import lombok.NonNull;

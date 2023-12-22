@@ -2,8 +2,7 @@ package cc.dreamcode.ffa.user;
 
 import cc.dreamcode.ffa.config.MessageConfig;
 import cc.dreamcode.ffa.config.PluginConfig;
-import cc.dreamcode.ffa.user.saveinventory.UserSavedInventory;
-import cc.dreamcode.ffa.user.saveinventory.util.InventoryUtil;
+import cc.dreamcode.ffa.util.InventoryUtil;
 import cc.dreamcode.ffa.user.combat.UserCombat;
 import cc.dreamcode.notice.minecraft.bukkit.BukkitNotice;
 import cc.dreamcode.utilities.RoundUtil;
@@ -59,7 +58,7 @@ public final class UserController implements Listener {
                     if (!userSimpleEntry.getKey()) {
                         user.setStatistics(new UserStatistics());
                         user.getStatistics().setPoints(this.pluginConfig.initialValueOfPoints);
-                        user.setSavedInventory(new UserSavedInventory());
+                        user.setInventory(new ItemStack[player.getInventory().getSize()]);
                     }
                     user.setCombat(new UserCombat());
                     user.save();

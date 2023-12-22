@@ -1,9 +1,9 @@
-package cc.dreamcode.ffa.user.saveinventory.util;
+package cc.dreamcode.ffa.util;
 
 import cc.dreamcode.ffa.config.PluginConfig;
 import cc.dreamcode.ffa.user.User;
-import cc.dreamcode.ffa.user.saveinventory.UserSavedInventory;
 import cc.dreamcode.utilities.bukkit.ItemUtil;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -39,10 +39,22 @@ public class InventoryUtil {
             }
         }
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
-        ItemUtil.addItems(pluginConfig.itemsAfterJoin, inventory);
-        final UserSavedInventory savedInventory = user.getSavedInventory();
-        if (savedInventory != null && savedInventory.getInventory() != null) {
-            player.getInventory().setContents(savedInventory.getInventory());
+        int added = 0;
+        if (user.getInventory() != null) {
+            for (int i = 0; i < user.getInventory().length; i++) {
+                ItemStack item = user.getInventory()[i];
+                if (item == null) {
+                    continue;
+                }
+                if (item.getType().equals(Material.AIR)) {
+                    continue;
+                }
+                added++;
+                player.getInventory().setItem(i, item);
+            }
+        }
+        if (added == 0) {
+            ItemUtil.addItems(pluginConfig.itemsAfterJoin, inventory);
         }
     }
 }

@@ -7,16 +7,15 @@ import cc.dreamcode.ffa.user.UserCache;
 import cc.dreamcode.ffa.user.ranking.UserRanking;
 import cc.dreamcode.ffa.user.UserRepository;
 import cc.dreamcode.ffa.config.ConfigReloadCommand;
-import cc.dreamcode.ffa.command.KillStreakCommand;
-import cc.dreamcode.ffa.command.SetSpawnCommand;
+import cc.dreamcode.ffa.user.command.KillStreakCommand;
+import cc.dreamcode.ffa.user.command.SetSpawnCommand;
 import cc.dreamcode.ffa.user.UserController;
 import cc.dreamcode.ffa.deposit.DepositItemTask;
 import cc.dreamcode.ffa.user.UserPlaceholder;
 import cc.dreamcode.ffa.user.ranking.UserRankingCommand;
 import cc.dreamcode.ffa.user.ranking.UserRankingPlaceholder;
 import cc.dreamcode.ffa.user.ranking.UserRankingSortTask;
-import cc.dreamcode.ffa.user.saveinventory.UserSavedInventorySerdes;
-import cc.dreamcode.ffa.user.saveinventory.command.SaveInventoryCommand;
+import cc.dreamcode.ffa.user.command.SaveInventoryCommand;
 import cc.dreamcode.ffa.user.combat.UserCombatInfoUpdateTask;
 import cc.dreamcode.menu.bukkit.BukkitMenuProvider;
 import cc.dreamcode.menu.bukkit.okaeri.MenuBuilderSerdes;
@@ -125,7 +124,6 @@ public final class BukkitFFAPlugin extends DreamBukkitPlatform implements DreamB
     public @NonNull OkaeriSerdesPack getPersistenceSerdesPack() {
         return registry -> {
             registry.register(new SerdesBukkit());
-            registry.register(new UserSavedInventorySerdes());
         };
     }
 

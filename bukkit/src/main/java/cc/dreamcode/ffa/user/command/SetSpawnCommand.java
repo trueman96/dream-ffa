@@ -1,4 +1,4 @@
-package cc.dreamcode.ffa.command;
+package cc.dreamcode.ffa.user.command;
 
 import cc.dreamcode.command.bukkit.BukkitCommand;
 import cc.dreamcode.ffa.config.MessageConfig;
