@@ -58,7 +58,7 @@ public final class UserController implements Listener {
                     if (!userSimpleEntry.getKey()) {
                         user.setStatistics(new UserStatistics());
                         user.getStatistics().setPoints(this.pluginConfig.initialValueOfPoints);
-                        user.setInventory(new ItemStack[player.getInventory().getSize()]);
+                        user.setInventory(new ItemStack[36]);
                     }
                     user.setCombat(new UserCombat());
                     user.save();
@@ -101,9 +101,9 @@ public final class UserController implements Listener {
     public void onPlayerRespawn(@NonNull PlayerRespawnEvent event) {
         final Player player = event.getPlayer();
         event.setRespawnLocation(this.pluginConfig.spawnLocation);
-        this.tasker.newDelayer(Duration.ofSeconds(2))
-                .delayed(() -> InventoryUtil.setupInventory(player, this.userCache.get(player), this.pluginConfig))
-                .executeSync();
+        this.tasker.newChain()
+                .sync(() -> InventoryUtil.setupInventory(player, this.userCache.get(player), this.pluginConfig))
+                .execute();
     }
 
     @EventHandler

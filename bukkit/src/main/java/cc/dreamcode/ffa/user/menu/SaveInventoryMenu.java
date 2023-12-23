@@ -43,14 +43,14 @@ public class SaveInventoryMenu {
                     return;
                 }
                 if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_DESTROYS)) {
-                    user.setInventory(new ItemStack[player.getInventory().getSize()]);
+                    user.setInventory(new ItemStack[36]);
                     this.messageConfig.resetedInventory.send(player);
                     this.tasker.newSharedChain(player.getUniqueId().toString())
                             .async(() -> user.save())
                             .execute();
                     InventoryUtil.setupInventory(player, user, this.pluginConfig);
                 } else if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS)) {
-                    user.setInventory(player.getInventory().getContents());
+                    System.arraycopy(player.getInventory().getContents(), 0, user.getInventory(), 0, user.getInventory().length);
                     this.messageConfig.savedInventory.send(player, new MapBuilder<String, Object>()
                             .put("items-saved", user.getInventory().length)
                             .build());

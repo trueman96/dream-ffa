@@ -53,8 +53,11 @@ public class InventoryUtil {
                 player.getInventory().setItem(i, item);
             }
         }
+
         if (added == 0) {
             ItemUtil.addItems(pluginConfig.itemsAfterJoin, inventory);
         }
+
+        player.updateInventory();
     }
 }
