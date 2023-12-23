@@ -76,7 +76,7 @@ public final class MessageConfig extends OkaeriConfig {
             .build();
 
     @Comment("Dostępne placeholdery: (items-saved)")
-    public BukkitNotice savedInventory = BukkitNotice.of(MinecraftNoticeType.CHAT, "&aPomyślnie zapisano obecny stan ekwipunku &7(&fzapisano: {items-saved}&7)");
+    public BukkitNotice savedInventory = BukkitNotice.of(MinecraftNoticeType.CHAT, "&aPomyślnie zapisano obecny stan ekwipunku");
     public BukkitNotice resetedInventory = BukkitNotice.of(MinecraftNoticeType.CHAT, "&aPomyślnie zresetowano stan zapisanego ekwipunku.");
 
     @Comment({

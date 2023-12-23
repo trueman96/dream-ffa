@@ -51,12 +51,11 @@ public class SaveInventoryMenu {
                             .execute();
                     InventoryUtil.setupInventory(player, user, this.pluginConfig);
                 } else if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS)) {
+                    user.getInventory().clear();
                     for (int i = 0; i < player.getInventory().getContents().length; i++) {
-                        player.getInventory().setItem(i, player.getInventory().getItem(i));
+                        user.getInventory().add(i, player.getInventory().getItem(i));
                     }
-                    this.messageConfig.savedInventory.send(player, new MapBuilder<String, Object>()
-                            .put("items-saved", user.getInventory().size())
-                            .build());
+                    this.messageConfig.savedInventory.send(player);
                     this.tasker.newSharedChain(player.getUniqueId().toString())
                             .async(() -> user.save())
                             .execute();
