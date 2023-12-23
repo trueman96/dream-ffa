@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -18,7 +19,7 @@ public final class User extends Document {
 
     private String name;
     private UserStatistics statistics;
-    private ItemStack[] inventory;
+    private List<ItemStack> inventory;
 
     private transient UserCombat combat;
 

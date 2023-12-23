@@ -40,9 +40,9 @@ public class InventoryUtil {
         }
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
         int added = 0;
-        if (user.getInventory() != null) {
-            for (int i = 0; i < user.getInventory().length; i++) {
-                ItemStack item = user.getInventory()[i];
+        if (!user.getInventory().isEmpty()) {
+            for (int i = 0; i < user.getInventory().size() - 1; i++) {
+                ItemStack item = user.getInventory().get(i);
                 if (item == null) {
                     continue;
                 }

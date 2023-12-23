@@ -58,7 +58,7 @@ public final class UserController implements Listener {
                     if (!userSimpleEntry.getKey()) {
                         user.setStatistics(new UserStatistics());
                         user.getStatistics().setPoints(this.pluginConfig.initialValueOfPoints);
-                        user.setInventory(new ItemStack[36]);
+                        user.setInventory(new ArrayList<>());
                     }
                     user.setCombat(new UserCombat());
                     user.save();

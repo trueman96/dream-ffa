@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -43,16 +44,18 @@ public class SaveInventoryMenu {
                     return;
                 }
                 if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_DESTROYS)) {
-                    user.setInventory(new ItemStack[36]);
+                    user.setInventory(new ArrayList<>());
                     this.messageConfig.resetedInventory.send(player);
                     this.tasker.newSharedChain(player.getUniqueId().toString())
                             .async(() -> user.save())
                             .execute();
                     InventoryUtil.setupInventory(player, user, this.pluginConfig);
                 } else if (item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS)) {
-                    System.arraycopy(player.getInventory().getContents(), 0, user.getInventory(), 0, user.getInventory().length);
+                    for (int i = 0; i < player.getInventory().getContents().length; i++) {
+                        player.getInventory().setItem(i, player.getInventory().getItem(i));
+                    }
                     this.messageConfig.savedInventory.send(player, new MapBuilder<String, Object>()
-                            .put("items-saved", user.getInventory().length)
+                            .put("items-saved", user.getInventory().size())
                             .build());
                     this.tasker.newSharedChain(player.getUniqueId().toString())
                             .async(() -> user.save())
