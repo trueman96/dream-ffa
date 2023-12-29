@@ -33,7 +33,7 @@ import static java.util.Objects.nonNull;
 /**
  * UserController.java
  * Purpose: The UserController is a class that manages the User-related functionality in the game.
- * @author vkie
+ * * @author trueman96
  * @version 1.0-beta.1
  * @since 2023-11-24
  */

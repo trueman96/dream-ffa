@@ -55,6 +55,10 @@ public class SaveInventoryMenu {
                     for (int i = 0; i < player.getInventory().getContents().length; i++) {
                         user.getInventory().add(i, player.getInventory().getItem(i));
                     }
+                    user.getArmor().clear();
+                    for (int i = 0; i < player.getInventory().getArmorContents().length; i++) {
+                        user.getArmor().add(i, player.getInventory().getArmorContents()[i]);
+                    }
                     this.messageConfig.savedInventory.send(player);
                     this.tasker.newSharedChain(player.getUniqueId().toString())
                             .async(() -> user.save())

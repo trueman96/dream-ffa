@@ -20,11 +20,11 @@ import static java.util.Objects.isNull;
 /**
  * UserCombatInfoUpdateTask.java
  * Purpose: The UserCombatInfoUpdateTask is a class that sends combat status to player.
- * @author vkie
+ * * @author trueman96
  * @version 1.0-beta.1
  * @since 2023-11-25
  */
-@Scheduler(delay = 13L, interval = 13L)
+@Scheduler(delay = 20L, interval = 20L)
 @RequiredArgsConstructor(onConstructor_= @Inject)
 public final class UserCombatInfoUpdateTask implements Runnable {
 

@@ -12,7 +12,7 @@ import java.util.UUID;
 /**
  * This interface defines the operations for managing User data in a data repository.
  * It uses a DocumentRepository provided by Okaeri's Persistence to handle the actual storage.
- * @author vkie
+ * * @author trueman96
  * @version 1.0-beta.1
  * @since 2023-11-24
  */

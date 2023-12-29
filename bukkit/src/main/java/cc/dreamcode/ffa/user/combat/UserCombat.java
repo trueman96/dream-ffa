@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * UserCombat.java
  * Purpose: The UserCombat is a class that contains User combat-related stuff.
- * @author vkie
+ * * @author trueman96
  * @version 1.0-beta.1
  * @since 2023-11-24
  */
@@ -27,18 +27,6 @@ public class UserCombat {
         this.lastAssistTime = 0L;
         this.lastAssistPlayer = null;
         this.lastAttackPlayer = null;
-    }
-
-    public void setLastAttackPlayer(UUID lastAttackPlayer) {
-        this.lastAttackPlayer = lastAttackPlayer;
-    }
-
-    public void setLastAssistPlayer(UUID lastAssistPlayer) {
-        this.lastAssistPlayer = lastAssistPlayer;
-    }
-
-    public void setLastAssistPlayer(Player lastAssistPlayer) {
-        this.lastAssistPlayer = lastAssistPlayer.getUniqueId();
     }
 
     public void setLastAttackPlayer(Player lastAttackPlayer) {

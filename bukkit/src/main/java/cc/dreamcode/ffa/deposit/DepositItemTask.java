@@ -14,7 +14,7 @@ import org.bukkit.inventory.PlayerInventory;
 /**
  * UserItemsDepositTask.java
  * Purpose: The UserItemsDepositTask is a class that takes excess items from config.
- * @author vkie
+ * * @author trueman96
  * @version 1.0-beta.1
  * @since 2023-11-25
  */

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 /**
  * UserRankingSortTask.java
  * Purpose: The UserRankingSortTask is a class that re-sorts user-ranking.
- * @author vkie
+ * * @author trueman96
  * @version 1.0-beta.1
  * @since 2023-11-25
  */

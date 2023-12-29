@@ -20,6 +20,7 @@ public final class User extends Document {
     private String name;
     private UserStatistics statistics;
     private List<ItemStack> inventory;
+    private List<ItemStack> armor;
 
     private transient UserCombat combat;
 
